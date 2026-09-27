@@ -1,5 +1,8 @@
+Blueprint.json
+Demo build prompt.json
+Production brief.json
+Reference teardown.json
 *.pdf
-*.json
 *.content.txt
 Brand extract/
 MASTER_PROMPT_3D.md
