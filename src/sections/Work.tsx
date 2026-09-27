@@ -1,7 +1,10 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
 import { useAppStore } from '@/state/store';
 import { projects } from '@content/projects';
+import { sound } from '@/audio/sound';
 
 export function Work() {
   const activeIndex = useAppStore((s) => s.activeProjectIndex);
@@ -17,84 +20,104 @@ export function Work() {
       className="relative w-full h-[440vh] -mb-[100svh] pointer-events-none"
     >
       <div
-        className={`sticky top-0 h-[100svh] flex flex-col justify-between p-8 md:p-16 transition-opacity duration-700 ${
+        className={`sticky top-0 h-[100svh] flex flex-col justify-between px-6 md:px-16 py-12 md:py-16 transition-opacity duration-700 ${
           isActive ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        {/* Header */}
-        <div className="flex justify-between items-start pointer-events-auto">
+        {/* Top Header */}
+        <div className="flex justify-between items-center pointer-events-auto border-b border-[#ece1cf]/15 pb-4">
           <div className="font-mono text-xs text-[#cbb074] tracking-[0.25em] uppercase flex items-center gap-2">
             <span>(03)</span>
             <span>The Nights</span>
             <span className="w-8 h-[1px] bg-[#cbb074]/40" />
-            <span className="text-[#ece1cf]/50">336 Kinetic Screen Fins</span>
+            <span className="text-[#ece1cf]/60">5 Unrepeatable Productions</span>
           </div>
 
           <button
-            onClick={() => openOverlay('index')}
-            className="font-mono text-xs text-[#cbb074] hover:text-[#f3e0ac] tracking-widest uppercase border border-[#cbb074]/30 px-3 py-1 rounded-sm cursor-pointer"
+            onClick={() => {
+              sound?.playTick(1.0);
+              openOverlay('index');
+            }}
+            className="font-mono text-xs text-[#cbb074] hover:text-[#f3e0ac] tracking-widest uppercase border border-[#cbb074]/40 px-3.5 py-1.5 rounded-sm cursor-pointer hover:bg-[#cbb074]/10 transition-colors"
           >
             All Nights Archive [5] ↗
           </button>
         </div>
 
-        {/* Active Project Card Display */}
-        <div className="max-w-2xl pointer-events-auto bg-[#050505]/70 backdrop-blur-md p-6 sm:p-8 border-l-2 border-[#cbb074] rounded-sm space-y-4 shadow-2xl">
-          {/* Counter & Year */}
-          <div className="flex justify-between items-center font-mono text-xs text-[#cbb074] tracking-[0.2em]">
-            <span>
-              {String(activeIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-            </span>
-            <span className="text-[#ece1cf]/60 uppercase">{currentProject.year} ARCHIVE</span>
-          </div>
-
-          {/* Project Title */}
-          <h2 className="font-['Cinzel'] text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-[#ece1cf]">
-            {currentProject.title}
-          </h2>
-
-          {/* Summary */}
-          <p className="font-serif text-sm sm:text-base text-[#ece1cf]/80 leading-relaxed">
-            {currentProject.summary}
-          </p>
-
-          {/* Metadata Grid */}
-          <div className="grid grid-cols-2 gap-3 pt-2 font-mono text-[11px] text-[#ece1cf]/60 border-t border-[#ece1cf]/10">
-            <div>
-              <span className="text-[#cbb074] block text-[9px] uppercase">Curator</span>
-              {currentProject.curator}
+        {/* Active Project Luxury Feature Card */}
+        <div className="max-w-4xl w-full mx-auto pointer-events-auto my-auto">
+          <div className="ic-frame-double bg-[#0c0a0a]/90 backdrop-blur-xl p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.9)] grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            {/* Visual Cover Preview with Louver Shears */}
+            <div className="md:col-span-5 relative aspect-[4/5] w-full rounded-sm overflow-hidden border border-[#cbb074]/40 shadow-xl group">
+              <Image
+                src={currentProject.cover.src}
+                alt={currentProject.title}
+                fill
+                priority
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+              <div className="absolute bottom-3 left-3 right-3 font-mono text-[9px] uppercase tracking-[0.2em] bg-[#050505]/80 p-2 border border-[#cbb074]/30 text-[#f3e0ac] backdrop-blur-sm">
+                VENUE: {currentProject.venue}
+              </div>
             </div>
-            <div>
-              <span className="text-[#cbb074] block text-[9px] uppercase">Sound Profile</span>
-              {currentProject.sound}
-            </div>
-            <div>
-              <span className="text-[#cbb074] block text-[9px] uppercase">Venue & Date</span>
-              {currentProject.date}
-            </div>
-            <div>
-              <span className="text-[#cbb074] block text-[9px] uppercase">Dress Code</span>
-              {currentProject.dressCode}
-            </div>
-          </div>
 
-          <div className="pt-2 flex items-center gap-4">
-            <button
-              onClick={() => openOverlay('coin')}
-              className="px-5 py-2.5 bg-[#cbb074] text-[#141414] font-mono text-xs font-bold tracking-widest uppercase hover:bg-[#f3e0ac] transition-all cursor-pointer rounded-sm"
-            >
-              Request Access →
-            </button>
-            <span className="font-mono text-[10px] text-[#ece1cf]/40 uppercase tracking-widest hidden sm:inline">
-              Scroll to flip project
-            </span>
+            {/* Editorial Information */}
+            <div className="md:col-span-7 space-y-4">
+              <div className="flex justify-between items-center font-mono text-xs text-[#cbb074] tracking-[0.2em]">
+                <span className="font-bold">
+                  NOCTURNE {String(activeIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+                </span>
+                <span className="text-[#ece1cf]/60 uppercase">{currentProject.discipline} · {currentProject.year}</span>
+              </div>
+
+              <h2 className="font-['Cinzel'] text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#ece1cf] leading-tight">
+                {currentProject.title}
+              </h2>
+
+              <p className="font-serif text-sm sm:text-base text-[#ece1cf]/85 leading-relaxed">
+                {currentProject.summary}
+              </p>
+
+              {/* Specs Dossier */}
+              <div className="grid grid-cols-2 gap-3 pt-3 border-t border-[#ece1cf]/15 font-mono text-[10px] text-[#ece1cf]/70">
+                <div>
+                  <span className="text-[#cbb074] block uppercase tracking-widest text-[9px]">Curator & Sound</span>
+                  <span className="truncate block">{currentProject.curator}</span>
+                </div>
+                <div>
+                  <span className="text-[#cbb074] block uppercase tracking-widest text-[9px]">Dress Code</span>
+                  <span>{currentProject.dressCode}</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Link
+                  href={`/work/${currentProject.slug}`}
+                  onClick={() => sound?.playTick(1.2)}
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#b2955e] via-[#f3e0ac] to-[#cbb074] text-[#050505] font-mono text-xs font-bold tracking-[0.18em] uppercase rounded-sm hover:scale-105 transition-all shadow-lg"
+                >
+                  View Dossier ↗
+                </Link>
+                <button
+                  onClick={() => {
+                    sound?.playTick(1.0);
+                    openOverlay('coin');
+                  }}
+                  className="px-5 py-2.5 border border-[#cbb074]/50 text-[#cbb074] hover:text-[#f3e0ac] font-mono text-xs tracking-[0.16em] uppercase hover:bg-[#cbb074]/10 transition-colors cursor-pointer rounded-sm"
+                >
+                  Request Coin
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Footer Hint */}
-        <div className="pointer-events-auto flex justify-between items-center font-mono text-[10px] text-[#ece1cf]/40 uppercase tracking-widest border-t border-[#ece1cf]/10 pt-3">
-          <span>DETERMINISTIC FLIP ADDRESSING</span>
-          <span>PRESS ARROW KEYS OR SCROLL TO BROWSE</span>
+        <div className="pointer-events-auto flex justify-between items-center font-mono text-[10px] text-[#ece1cf]/50 uppercase tracking-widest border-t border-[#ece1cf]/15 pt-3">
+          <span>FLIP ADDRESSING: 5 NOCTURNES IN CANONICAL ROTATION</span>
+          <span>SCROLL OR USE ARROW KEYS TO FLIP</span>
         </div>
       </div>
     </section>

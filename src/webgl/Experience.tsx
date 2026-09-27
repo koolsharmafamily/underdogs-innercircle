@@ -12,6 +12,7 @@ import { Floor } from './world/Floor';
 import { Wordmark3D } from './world/Wordmark3D';
 import { Dust } from './world/Dust';
 import { KineticArray } from './kinetic/KineticArray';
+import { Coin3D } from './coin/Coin3D';
 
 function CanvasClockBridge() {
   // Bridge the Canvas advance function to our frame singleton
@@ -54,6 +55,7 @@ export function Experience() {
           <Wordmark3D />
           <Dust />
           <KineticArray />
+          <Coin3D />
         </group>
       </Canvas>
     </div>

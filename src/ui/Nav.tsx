@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAppStore } from '@/state/store';
 import { getLenis } from '@/motion/clock';
@@ -57,13 +58,22 @@ export function Nav() {
         className="flex items-center gap-3 group text-left cursor-pointer focus:outline-none"
         aria-label="Underdogs Innercircle — Back to top"
       >
-        <span className="w-2.5 h-2.5 rounded-full bg-[#cbb074] group-hover:scale-125 transition-transform duration-300" />
-        <span className="font-['Cinzel'] tracking-[0.22em] text-xs md:text-sm font-bold uppercase">
-          UNDERDOGS
-        </span>
-        <span className="text-[10px] tracking-[0.18em] font-mono opacity-50 uppercase hidden sm:inline">
-          INNERCIRCLE
-        </span>
+        <div className="w-8 h-8 rounded-full overflow-hidden relative border border-[#cbb074] group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-[0_0_15px_rgba(203,176,116,0.3)] flex-shrink-0 bg-[#050505]">
+          <Image
+            src="/brand/logo.jpg"
+            alt="Underdogs Gold Coin Emblem"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="flex flex-col">
+          <span className="font-['Cinzel'] tracking-[0.22em] text-xs md:text-sm font-bold uppercase ic-gold-text">
+            UNDERDOGS
+          </span>
+          <span className="text-[9px] tracking-[0.24em] font-mono text-[#cbb074] uppercase">
+            INNERCIRCLE
+          </span>
+        </div>
       </button>
 
       {/* Nav Controls */}

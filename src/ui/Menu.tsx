@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 import { useAppStore } from '@/state/store';
 import { scenes } from '@content/scenes';
 import { siteConfig } from '@content/site';
@@ -111,6 +112,14 @@ export function Menu() {
         {/* Secondary Info Column */}
         <div className="lg:col-span-4 flex flex-col justify-between gap-8 border-l border-[#ece1cf]/10 lg:pl-10">
           <div className="flex flex-col gap-4">
+            <div className="w-16 h-16 rounded-full relative overflow-hidden border border-[#cbb074] shadow-lg bg-[#050505]">
+              <Image
+                src="/brand/logo.jpg"
+                alt="Underdogs Gold Coin Medallion"
+                fill
+                className="object-cover"
+              />
+            </div>
             <span className="font-mono text-[10px] tracking-[0.25em] text-[#cbb074] uppercase">
               THE CONCIERGE & ACCESS
             </span>

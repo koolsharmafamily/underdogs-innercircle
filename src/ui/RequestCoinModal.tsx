@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useAppStore } from '@/state/store';
 
 export function RequestCoinModal() {
@@ -11,7 +12,7 @@ export function RequestCoinModal() {
   const [name, setName] = useState('');
   const [handle, setHandle] = useState('');
   const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState('7729');
   const [serial, setSerial] = useState('061');
 
   const isOpen = overlay === 'coin';
@@ -149,10 +150,15 @@ export function RequestCoinModal() {
 
         {step === 'minted' && (
           <div className="text-center py-4">
-            <div className="w-20 h-20 mx-auto mb-4 rounded-full border-2 border-dashed border-[#cbb074] flex items-center justify-center bg-[#050505] shadow-[0_0_25px_rgba(203,176,116,0.3)]">
-              <span className="font-['Cinzel'] text-2xl font-bold text-[#cbb074]">
-                IC
-              </span>
+            <div className="w-24 h-24 mx-auto mb-4 rounded-full relative overflow-hidden p-[2px] bg-gradient-to-tr from-[#73572b] via-[#f3e0ac] to-[#977947] shadow-[0_0_35px_rgba(203,176,116,0.5)]">
+              <div className="w-full h-full rounded-full overflow-hidden relative bg-[#050505]">
+                <Image
+                  src="/brand/logo.jpg"
+                  alt="Minted Underdogs Gold Coin"
+                  fill
+                  className="object-cover animate-spin-slow"
+                />
+              </div>
             </div>
 
             <div className="text-[10px] font-mono text-[#cbb074] tracking-[0.25em] uppercase mb-1">

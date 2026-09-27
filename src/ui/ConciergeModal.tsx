@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useAppStore } from '@/state/store';
 
 interface Message {
@@ -73,9 +74,14 @@ export function ConciergeModal() {
         {/* Header */}
         <div className="p-5 border-b border-[#ece1cf]/15 flex items-center justify-between bg-[#0a0a0a]">
           <div className="flex items-center gap-3">
-            {/* Goldie Avatar Badge */}
-            <div className="w-9 h-9 rounded-full bg-[#23171c] border border-[#cbb074] flex items-center justify-center text-sm font-bold text-[#cbb074]">
-              ✦
+            {/* Goldie Avatar Badge (The Living Face of the Coin) */}
+            <div className="w-10 h-10 rounded-full border border-[#cbb074] relative overflow-hidden flex-shrink-0 shadow-md bg-[#050505]">
+              <Image
+                src="/brand/logo.jpg"
+                alt="Goldie the Concierge"
+                fill
+                className="object-cover"
+              />
             </div>
             <div>
               <div className="font-['Cinzel'] font-bold text-sm tracking-widest text-[#f3e0ac]">

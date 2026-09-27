@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useAppStore } from '@/state/store';
 import { projects, Project } from '@content/projects';
 import { getLenis } from '@/motion/clock';
@@ -84,16 +85,24 @@ export function IndexOverlay() {
         </div>
 
         {/* Live Preview Card */}
-        <div className="lg:col-span-5 bg-[#141414] border border-[#ece1cf]/15 p-6 rounded-sm flex flex-col justify-between h-[380px] shadow-2xl">
+        <div className="lg:col-span-5 ic-frame-double bg-[#0c0a0a]/95 p-6 flex flex-col justify-between shadow-2xl">
           <div>
-            <div className="flex justify-between items-center text-[10px] font-mono text-[#cbb074] tracking-widest uppercase mb-3">
+            <div className="relative aspect-[16/9] w-full rounded-sm overflow-hidden mb-4 border border-[#cbb074]/40">
+              <Image
+                src={hoveredProject.cover.src}
+                alt={hoveredProject.title}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="flex justify-between items-center text-[10px] font-mono text-[#cbb074] tracking-widest uppercase mb-2">
               <span>{hoveredProject.year} ARCHIVE</span>
               <span>{hoveredProject.discipline}</span>
             </div>
-            <h4 className="font-['Cinzel'] text-2xl font-bold mb-2">
+            <h4 className="font-['Cinzel'] text-2xl font-bold mb-1.5 text-[#ece1cf]">
               {hoveredProject.title}
             </h4>
-            <p className="font-serif text-xs text-[#ece1cf]/75 leading-relaxed line-clamp-3 mb-4">
+            <p className="font-serif text-xs text-[#ece1cf]/80 leading-relaxed line-clamp-2 mb-3">
               {hoveredProject.summary}
             </p>
           </div>

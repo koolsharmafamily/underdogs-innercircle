@@ -50,7 +50,7 @@ export function CaseStudyClient({ project, nextProject }: Props) {
             <span>Underdogs Innercircle · Nocturne {project.year}</span>
           </div>
 
-          <h1 className="font-['Cinzel'] text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#f3e0ac] mb-8 leading-[1.05]">
+          <h1 className="font-['Cinzel'] text-4xl sm:text-6xl md:text-7xl font-black tracking-tight ic-gold-text mb-8 leading-[1.05]">
             {project.title}
           </h1>
 
@@ -59,7 +59,7 @@ export function CaseStudyClient({ project, nextProject }: Props) {
           </p>
 
           {/* Dossier Meta Table */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-y border-[#ece1cf]/15 font-mono text-xs">
+          <div className="ic-frame bg-[#141414]/85 backdrop-blur-md grid grid-cols-2 md:grid-cols-4 gap-6 p-6 sm:p-8 font-mono text-xs shadow-xl">
             <div>
               <span className="block text-[10px] text-[#cbb074] uppercase tracking-[0.2em] mb-1">
                 Curator / Lineup
