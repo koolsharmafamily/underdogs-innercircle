@@ -1,11 +1,15 @@
-Blueprint.json
-Demo build prompt.json
-Production brief.json
-Reference teardown.json
-*.pdf
-*.content.txt
-Brand extract/
-MASTER_PROMPT_3D.md
-Animation Theme.png
-Post example.png
-Logo.jpg
+!public/
+!public/brand/
+!public/brand/*
+
+/Blueprint.json
+/Demo build prompt.json
+/Production brief.json
+/Reference teardown.json
+/*.pdf
+/*.content.txt
+/Brand extract/
+/MASTER_PROMPT_3D.md
+/Animation Theme.png
+/Post example.png
+/Logo.jpg
