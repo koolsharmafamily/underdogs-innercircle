@@ -1,0 +1,121 @@
+'use client';
+
+import { useRouter, usePathname } from 'next/navigation';
+import { useAppStore } from '@/state/store';
+import { getLenis } from '@/motion/clock';
+import { siteConfig } from '@content/site';
+import { SoundToggle } from './SoundToggle';
+
+export function Nav() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentScene = useAppStore((s) => s.currentScene);
+  const openOverlay = useAppStore((s) => s.openOverlay);
+  const theme = useAppStore((s) => s.theme);
+  const setTheme = useAppStore((s) => s.setTheme);
+  const motionEnabled = useAppStore((s) => s.motionEnabled);
+  const setMotionEnabled = useAppStore((s) => s.setMotionEnabled);
+  const reducedMotion = useAppStore((s) => s.reducedMotion);
+  const setReducedMotion = useAppStore((s) => s.setReducedMotion);
+
+  const isLightScene = currentScene === 'capabilities';
+
+  const handleBrandClick = () => {
+    if (pathname !== '/') {
+      router.push('/');
+    } else {
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.6 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'vault' ? 'aegean' : 'vault';
+    setTheme(nextTheme);
+    document.documentElement.setAttribute('data-theme', nextTheme);
+  };
+
+  const toggleMotion = () => {
+    const nextMotion = !motionEnabled;
+    setMotionEnabled(nextMotion);
+    setReducedMotion(!nextMotion);
+  };
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-40 px-6 md:px-12 py-6 flex items-center justify-between transition-colors duration-500 pointer-events-auto ${
+        isLightScene ? 'text-[#141210]' : 'text-[#ece1cf]'
+      }`}
+    >
+      {/* Brand Wordmark / Emblem (Click = Back to Top or Home) */}
+      <button
+        onClick={handleBrandClick}
+        className="flex items-center gap-3 group text-left cursor-pointer focus:outline-none"
+        aria-label="Underdogs Innercircle — Back to top"
+      >
+        <span className="w-2.5 h-2.5 rounded-full bg-[#cbb074] group-hover:scale-125 transition-transform duration-300" />
+        <span className="font-['Cinzel'] tracking-[0.22em] text-xs md:text-sm font-bold uppercase">
+          UNDERDOGS
+        </span>
+        <span className="text-[10px] tracking-[0.18em] font-mono opacity-50 uppercase hidden sm:inline">
+          INNERCIRCLE
+        </span>
+      </button>
+
+      {/* Nav Controls */}
+      <nav className="flex items-center gap-4 sm:gap-7 font-mono text-[11px] tracking-[0.12em] uppercase">
+        <button
+          onClick={() => openOverlay('index')}
+          className="hover:text-[#cbb074] transition-colors cursor-pointer"
+        >
+          The Nights
+        </button>
+
+        <button
+          onClick={() => openOverlay('concierge')}
+          className="hover:text-[#cbb074] transition-colors flex items-center gap-1.5 cursor-pointer text-[#cbb074]"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-[#e32605] animate-pulse" />
+          Goldie
+        </button>
+
+        <button
+          onClick={toggleTheme}
+          className="hover:text-[#cbb074] transition-colors cursor-pointer hidden md:inline"
+          title="Switch Theme: Vault Black / Aegean Island"
+        >
+          {theme === 'vault' ? 'Aegean' : 'Vault'}
+        </button>
+
+        <button
+          onClick={toggleMotion}
+          className="hover:text-[#cbb074] transition-colors cursor-pointer hidden lg:inline opacity-70"
+          title="Toggle motion"
+        >
+          Motion: {motionEnabled ? 'On' : 'Off'}
+        </button>
+
+        <SoundToggle className="hidden md:inline-flex opacity-80" />
+
+        <button
+          onClick={() => openOverlay('menu')}
+          className="hover:text-[#cbb074] transition-colors cursor-pointer px-2.5 py-1 border border-current rounded-sm"
+        >
+          Menu
+        </button>
+
+        {/* Primary CTA */}
+        <button
+          onClick={() => openOverlay('coin')}
+          className="hidden sm:inline-flex items-center gap-1 px-4 py-1.5 bg-[#cbb074] text-[#141414] font-semibold tracking-[0.15em] rounded-sm hover:bg-[#f3e0ac] transition-all cursor-pointer text-[11px]"
+        >
+          Request Coin ↗
+        </button>
+      </nav>
+    </header>
+  );
+}

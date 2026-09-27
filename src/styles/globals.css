@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Blacks — the vault */
+    --ic-void: #050505;
+    --ic-onyx: #141414;
+    --ic-satin-900: #23171c;
+    --ic-satin-700: #342528;
+    --ic-satin-500: #503731;
+    --ic-vein: #beb8b2;
+
+    /* Gold — the coin */
+    --ic-gold-900: #73572b;
+    --ic-gold-700: #977947;
+    --ic-gold-500: #b2955e;
+    --ic-gold-300: #cbb074;
+    --ic-gold-100: #f3e0ac;
+    --ic-gold-bright: #f2d68f;
+
+    /* Light — ivory & diamond */
+    --ic-ivory: #ece1cf;
+    --ic-ivory-dim: #ded3c1;
+    --ic-diamond: #e3d8cf;
+    --ic-champagne: #e3bc95;
+    --ic-confetti: #edbf79;
+
+    /* Accents — flame and drop */
+    --ic-ember-deep: #7d4b2d;
+    --ic-ember: #ae7144;
+    --ic-ember-hot: #eab673;
+    --ic-drop: #e32605;
+    --ic-drop-deep: #a01201;
+    --ic-drop-hi: #f0421f;
+
+    /* White Room equivalents */
+    --c-paper: #f4f0e9;
+    --c-ink: #141210;
+    --c-signal: #ff5b1f;
+
+    /* Motion easing tokens (Part 4.3) */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-swift: cubic-bezier(0.83, 0, 0.17, 1);
+    --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+    --ease-hover: cubic-bezier(0.25, 1, 0.5, 1);
+
+    /* Fonts */
+    --font-display: 'Cinzel', Georgia, serif;
+    --font-serif: 'EB Garamond', Cormorant Garamond, Georgia, serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  [data-theme="aegean"] {
+    --ic-onyx: #14224a;
+    --ic-void: #0a132c;
+    --ic-satin-900: #1b2e5e;
+    --ic-satin-700: #2451a6;
+    --ic-gold-300: #f3e0ac;
+    --ic-ivory: #f3efe6;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--ic-onyx);
+  color: var(--ic-ivory);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hairline rule definition (Part 2.4) */
+.hairline-b {
+  border-bottom: 1px solid rgba(236, 225, 207, 0.18);
+}
+.hairline-t {
+  border-top: 1px solid rgba(236, 225, 207, 0.18);
+}
+.hairline-l {
+  border-left: 1px solid rgba(236, 225, 207, 0.18);
+}
+.hairline-r {
+  border-right: 1px solid rgba(236, 225, 207, 0.18);
+}
+.hairline-all {
+  border: 1px solid rgba(236, 225, 207, 0.18);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #f3e0ac 0%, #cbb074 40%, #977947 70%, #f2d68f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border {
+  border-color: var(--ic-gold-700);
+}
+
+/* 3-5% Animated Film Grain (Part 2.4, V16) */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 99;
+  opacity: 0.038;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--ic-gold-300);
+  outline-offset: 3px;
+}
+
+/* Reduced Motion Mode */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

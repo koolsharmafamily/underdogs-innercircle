@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <radialGradient id="coinGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#141414" />
+      <stop offset="70%" stop-color="#050505" />
+      <stop offset="100%" stop-color="#23171c" />
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3e0ac" />
+      <stop offset="25%" stop-color="#cbb074" />
+      <stop offset="50%" stop-color="#977947" />
+      <stop offset="75%" stop-color="#b2955e" />
+      <stop offset="100%" stop-color="#73572b" />
+    </linearGradient>
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Milled Rim -->
+  <circle cx="250" cy="250" r="236" fill="none" stroke="url(#goldGrad)" stroke-width="6" stroke-dasharray="4,6" />
+  
+  <!-- Outer Gold Band -->
+  <circle cx="250" cy="250" r="226" fill="none" stroke="url(#goldGrad)" stroke-width="14" />
+  <circle cx="250" cy="250" r="218" fill="none" stroke="#23171c" stroke-width="2" />
+
+  <!-- Inner Onyx Coin Dome -->
+  <circle cx="250" cy="250" r="200" fill="url(#coinGrad)" stroke="url(#goldGrad)" stroke-width="5" />
+  
+  <!-- Octagram filigree backing -->
+  <path d="M250,60 L270,120 L330,80 L310,140 L380,130 L340,180 L410,200 L350,240 L400,280 L340,290 L370,350 L310,330 L320,400 L260,360 L250,420 L240,360 L180,400 L190,330 L130,350 L160,290 L100,280 L150,240 L90,200 L160,180 L120,130 L190,140 L170,80 L230,120 Z" 
+        fill="none" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.35" />
+
+  <!-- Innercircle Ring Text Reference Path -->
+  <path id="textCircleTop" d="M 90,250 A 160,160 0 1,1 410,250" fill="none" />
+  <path id="textCircleBottom" d="M 410,250 A 160,160 0 1,1 90,250" fill="none" />
+
+  <text fill="url(#goldGrad)" font-family="Cinzel, serif" font-size="19" font-weight="700" letter-spacing="5" text-anchor="middle">
+    <textPath href="#textCircleTop" startOffset="50%">UNDERDOGS</textPath>
+  </text>
+  <text fill="url(#goldGrad)" font-family="Cinzel, serif" font-size="17" font-weight="600" letter-spacing="4" text-anchor="middle">
+    <textPath href="#textCircleBottom" startOffset="50%">INNERCIRCLE</textPath>
+  </text>
+
+  <!-- Canonical Faceted X Eyes -->
+  <!-- Left Eye -->
+  <g transform="translate(195, 215)">
+    <path d="M-22,-22 L22,22 M22,-22 L-22,22" stroke="url(#goldGrad)" stroke-width="10" stroke-linecap="square" />
+    <path d="M-18,-18 L18,18 M18,-18 L-18,18" stroke="#f3e0ac" stroke-width="4" stroke-linecap="square" />
+  </g>
+
+  <!-- Right Eye -->
+  <g transform="translate(305, 215)">
+    <path d="M-22,-22 L22,22 M22,-22 L-22,22" stroke="url(#goldGrad)" stroke-width="10" stroke-linecap="square" />
+    <path d="M-18,-18 L18,18 M18,-18 L-18,18" stroke="#f3e0ac" stroke-width="4" stroke-linecap="square" />
+  </g>
+
+  <!-- Signature Crescent Smile -->
+  <path d="M185,280 Q250,355 315,280" fill="none" stroke="url(#goldGrad)" stroke-width="10" stroke-linecap="round" />
+  <path d="M190,280 Q250,345 310,280" fill="none" stroke="#f3e0ac" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Gold Polished Tongue Out with Center Crease -->
+  <path d="M228,318 C228,360 272,360 272,318 Z" fill="url(#goldGrad)" stroke="#73572b" stroke-width="2" />
+  <path d="M250,318 L250,348" stroke="#73572b" stroke-width="2" />
+
+  <!-- THE KEYSTONE MARKER (Part 1.3, Part 5.3 & Appendix A) -->
+  <!-- Positioned at the golden-section apex accent of the inner circle -->
+  <circle id="keystone" cx="250" cy="115" r="7" fill="#ece1cf" stroke="url(#goldGrad)" stroke-width="2" filter="url(#goldGlow)" />
+</svg>

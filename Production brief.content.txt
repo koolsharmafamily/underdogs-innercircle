@@ -1,0 +1,413 @@
+Page 1 of 11
+- Six reference repos were studied for patterns. **Do not copy their code, 
+those three files. **Use these tokens. Do not invent colours.**
+- `Brand extract/innercircle-tokens.css`: colour and type tokens sampled from 
+satin, gold ribbon confetti on black glitter.
+standing on the coin, a red bottle plunging in with a frozen splash, black 
+- `Animation Theme.png`: a still from their animation. A champagne flute 
+filigree octagram behind the coin.
+capitals, a thin gold double-rule frame with clipped corners, a diamond 
+satin, a black dragon, copper flames, diamond-encrusted Trajan-style 
+- `Launch Post.png`: the Innercircle "Grand Launch" post. Black marble, black 
+tongue out).
+filigree band, glossy onyx centre, faceted gold X eyes, gold smile with the 
+**gold coin** (milled rim, brushed gold ring engraved "UNDERDOGS" twice, 
+- `Logo.jpg` in this folder is the canonical logo: the Underdogs badge as a 
+## 1. Read these first
+---
+and show me screenshots at 390 px and 1440 px wide.
+plan and wait for my go-ahead. After each phase, run the checks listed for it 
+Work in the phases at the end of this brief. Before each phase, write a short 
+on SortMyScene).
+2. Sell or link tickets for **public Underdogs nights** (they currently sell 
+nights, reviewed by the Underdogs crew.
+1. Turn Instagram attention into **good invite requests** for Innercircle 
+The site has two jobs:
+event series of Underdogs Entertainment, a party promoter in Nagpur, India. 
+You are building the website for **Underdogs Innercircle**, the invite-only 
+This brief is for the production build that follows it.
+For the pitch demo, use `Claude Code demo prompt.md` in this folder instead. 
+# Production brief: Underdogs Innercircle website
+t h e  p itc h ; t h e  D e m  o  b u ild  p ro m  p t  t a b  c o m  e s  f irs t .
+t h e  s a m  e  te x t  s a v e d  t h e re  a s  C la u d e  C o d e  p ro d u c t io n  b rie f.m  d . It  is  fo r t h e  re a l b u ild  a fte r
+P a s te  t h is  in to  C la u d e  C o d e , o r o p e n  C la u d e  C o d e  in  y o u r U n d e rd o g s  fo ld e r a n d  p o in t  it  a t
+P ro d u ctio n  b rie f
+Production brief
+----------------Page (0) Break----------------
+Page 2 of 11
+changes.
+rig, props, one display font) and give each event a theme; the coin never 
+Dolce Vita). Build theme packs as data (CSS variables, 3D backdrop, light 
+world (black marble and fire for the launch, Santorini after dark for La 
+**Different worlds, same coin:** every Innercircle night has had its own 
+coin is their ticket, with the entry code on its tails side.
+serial number, a burst of gold confetti. After they confirm a night, the same 
+watches their personal coin being minted: their name engraved on the rim, a 
+**Your coin (reward moment):** when the crew approves a request, the guest 
+Underdogs' own photos and reels | Normal scroll |
+| 6 | Been inside | Stamps each past night like a wax seal | Past nights from 
+on |
+with quick-question chips | The coin docks bottom-right as the user scrolls 
+| 5 | The keeper | Its face wakes up as **Goldie**, the AI concierge | Chat 
+Scrubbed, one notch per step |
+up in turn | Request → Review → Your coin → Confirm → Location drop → Door | 
+| 4 | Through the circle | Its rim engraving becomes six notches that light 
+SortMyScene | Splash plays once on entry; the cards are plain HTML |
+"Location drops before the night". Public nights below, linking to 
+falls in and splashes | Next Innercircle night: date, sound, dress code, 
+| 3 | The drop | Lands flat like a coaster; a flute rises onto it; a red drop 
+(invite-only nights) | Scrubbed flip that snaps to each face |
+mount | What Underdogs throws (the party) beside what the Innercircle is 
+| 2 | Heads or tails | Flips: heads = the X-eyed face; tails = the octagram 
+scrolling slows the spin and tips the coin toward the viewer |
+copy, buttons "Request your coin" and "See the next night" | Pinned; 
+at the frame edges | "UNDERDOGS INNERCIRCLE" in diamond caps, one line of 
+| 1 | The vault | Spins on its edge in black satin; copper firelight breathes 
+|---|---|---|---|---|
+| # | Chapter | What the coin does | On screen | On scroll (Full tier) |
+Every chapter of the home page is something that happens to that one coin.
+and landed with a ring. In the Innercircle, the invite is the currency.** 
+**This scene shows the Underdogs coin moving like a real coin: spun, flipped 
+## 2. The concept (do not drift from this)
+---
+branding or content.** What to take from them is folded into this brief.
+Production brief
+----------------Page (1) Break----------------
+Page 3 of 11
+- **Motifs:** black satin with a warm plum sheen, black marble with white 
+- **Name styling:** "Underdogs Innercircle", with Innercircle as one word.
+point glint.
+treatment: gold outline, diamond pavé fill (a texture or shader) and a four-
+for UI, forms and chat. Load with `next/font`. Big moments get the launch 
+Garamond for headings and the "Underdogs Innercircle" wordmark line, Inter 
+- **Type:** Cinzel for display caps (hero wordmark and big moments), EB 
+text; use `--ic-drop-hi` if red text is unavoidable.
+moments only (ticket drop, location drop, last spots) and never carries small 
+300` (8.8:1); raised surfaces `--ic-satin-900`. `--ic-drop` red is for "drop" 
+onyx`; body text `--ic-ivory` (14.2:1); headings, links and icons `--ic-gold-
+- **Colours:** only from `innercircle-tokens.css`. Page background `--ic-
+## 4. Brand and design rules
+---
+load script (autocannon or k6) for ticket rushes.
+- Tests: Vitest for domain rules, Playwright for end-to-end flows, a small 
+- Monitoring: Vercel Analytics, Sentry, AI SDK telemetry.
+- Rate limits and chat sessions: Upstash Redis.
+`gemini-flash-latest`; check current model names in the Gemini docs).
+calling and streaming. Default model from env `GOLDIE_MODEL` (for example 
+- AI: Vercel AI SDK (`ai`, `@ai-sdk/react`, `@ai-sdk/google`) with tool 
+Interakt or similar, chosen later); Resend for email as the backup channel.
+- Messages: WhatsApp Business API through a provider adapter (Gupshup, 
+throughout development.
+- Payments: Razorpay (Orders API, Checkout, webhooks). Use test mode 
+media.
+MSG91 through Supabase's Send SMS hook); Supabase Storage for posters and 
+(configure an SMS provider that delivers in India, for example Twilio, or 
+- Data: Supabase Postgres via Drizzle ORM; Supabase Auth with **phone OTP** 
+progress and Goldie's presence).
+- State: zustand (a transient store for per-frame values such as scroll 
+- Scroll: gsap + ScrollTrigger with @gsap/react `useGSAP` for cleanup.
+three/postprocessing, maath.
+- 3D: three.js, @react-three/fiber, @react-three/drei, @react-
+CSS v4, deployed on Vercel.
+- Next.js (App Router, latest stable), React 19, TypeScript strict, Tailwind 
+## 3. Stack
+---
+Production brief
+----------------Page (2) Break----------------
+Page 4 of 11
+---
+`CRON_SECRET`, constant-time compare, fail closed |
+| `/api/cron/*` | Holds, waitlist offers, location drops, reminders | 
+| `/api/razorpay/webhook` | Payment events | Signature-verified |
+| `/api/goldie` | Concierge chat (streaming) | Rate-limited |
+Crew or admin role |
+| `/crew` | Console: nights, tiers, review queue, waitlist, FAQ, messages | 
+|
+| `/door` | Crew scanner, installable PWA, works on flaky signal | Crew role 
+required |
+| `/me` | My coin, requests, tickets, waitlist places, delete-my-data | Auth 
+| `/coin/[token]` | Claim a personal coin (invite) | Dynamic, `noindex` |
+status and the drop time | Dynamic, `noindex`, never in the sitemap |
+| `/innercircle/[slug]` | An Innercircle night, redacted by the viewer's 
+Server-rendered |
+| `/innercircle` | What the Innercircle is, how it works, request form | 
+offsets, per-night OG image |
+SortMyScene link | Server-rendered, schema.org Event JSON-LD with IST 
+| `/nights/[slug]` | A public night: poster, sound, lineup, tiers or 
+| `/nights` | All upcoming public nights | Server-rendered, indexable |
+| `/` | The six-chapter journey | Server-rendered HTML + client 3D island |
+|---|---|---|
+| Route | What it is | Rendering |
+## 5. Routes
+---
+build it into the core scene.
+- **The dragon** is launch-only until the team confirms otherwise. Do not 
+reproduce its label. Demo data must be labelled "Demo".
+in the animation reads "BY ALL MEANS" and may be a partner product: do not 
+up counts ("500 joined"), no partner logos without permission. The red bottle 
+- **Honesty rules:** no fake testimonials, no invented guest names, no made-
+guest into Hinglish if they use it.
+- **Voice:** cheeky, warm, a little velvet-rope. Short sentences. Follows the 
+generic slow idle spin on everything.
+Coins spin, flip and wobble to rest. Glints sweep across metal. Never a 
+- **Motion:** slow, product-shot calm broken by one sharp impact (the drop). 
+copper firelight.
+(use it for cards and the invite), the octagram mount, gold ribbon confetti, 
+veins, pavé diamonds, the thin gold double-rule frame with clipped corners 
+Production brief
+----------------Page (3) Break----------------
+Page 5 of 11
+fade, `frameloop="demand"`.
+- **Still:** `prefers-reduced-motion`. Coin rests face-on, chapters cross-
+scrubbing; no bloom or flames; fewer particles; pixel ratio capped at 1.5.
+Same chapters, but each coin move plays once on section entry instead of 
+- **Lite:** slower phones (a quick GPU check plus drei `PerformanceMonitor`). 
+- **Full:** desktops and recent phones. Everything above.
+**Quality tiers**
+filigree.
+- Diamond glints: small sprites that twinkle on the display letters and 
+each.
+- Gold ribbon confetti and splash droplets: `InstancedMesh`, one draw call 
+- Copper firelight at the frame edges: a noise shader, very soft.
+static texture).
+- Satin backdrop: a plane with a gentle vertex-shader ripple (Lite gets a 
+- Selective bloom on the gold highlights.
+**Effects (Full tier only unless noted)**
+matching `Logo.jpg`, with a soft reflection on a black floor.
+with drei `Environment` plus `Lightformer`s: a warm key from the top left, 
+anisotropy on the brushed ring. Onyx: clearcoat 1, very low roughness. Light 
+- Gold: `MeshPhysicalMaterial`, metalness 1, roughness about 0.25 to 0.35, 
+it (Draco geometry, KTX2 textures, roughly 1.5 MB or less).
+expression. Swap in a GLB built from the vector logo when the team supplies 
+the tongue and the onyx dome as separate meshes** so Goldie can change 
+the ring face textured from `Logo.jpg` as a placeholder. Keep the **two eyes, 
+- Phase 2 starts with a procedural coin: a bevelled disc with a milled rim, 
+**The coin**
+rotation, scale, material params), not hard-coded logic.
+- Drive the coin from a data table of keyframes per chapter (position, 
+GSAP and never set React state per frame.
+damping (maath `easing.damp`). Never tween three.js objects directly through 
+to the zustand store. `useFrame` reads the store and applies transforms with 
+- GSAP ScrollTrigger (pin + scrub on the Full tier) writes chapter progress 
+coin share one WebGL context. Never create a second canvas.
+in the root layout. Use drei `View` so the vault, the drop and the docked 
+client-only after first paint (`dynamic(..., { ssr: false })`), mounted once 
+- One persistent `<Canvas>` for the whole site, fixed behind the DOM, loaded 
+**Architecture**
+## 6. The 3D layer
+Production brief
+----------------Page (4) Break----------------
+Page 6 of 11
+| hushed | asked for a secret (venue before the drop, guest names) | Dims 
+gold confetti |
+| celebrating | request submitted or coin minted | One flip inside a burst of 
+cadence or audio level |
+| speaking | tokens streaming | Faces the guest; tongue moves with text 
+and spins, slowing as the reply arrives |
+| thinking | message sent, waiting for the first token | Rises onto its edge 
+eyes become round eyes; rim glows with typing rhythm or audio level |
+| listening | input focused, typing, or mic audio | Tilts toward the input; X 
+seconds; the tongue flicks occasionally |
+| idle | nothing happening | Rests face-on; a glint sweeps the rim every few 
+|---|---|---|
+| State | Trigger | Coin behaviour |
+chat events):
+**Presence states** (a small state machine in the zustand store, driven by 
+and helps people request an invite. **It never opens the door.**
+Goldie is the coin itself, talking. It answers questions, recommends nights 
+## 7. Goldie, the AI concierge
+---
+frames do.
+fps on desktop and at least 30 fps on phones, with quality dropping before 
+JavaScript (gzipped) before the 3D chunk; 3D chunk under 350 KB gzipped; 60 
+**Budgets:** LCP under 2.5 s on a mid-range Android over 4G; under 150 KB of 
+- Phones scroll natively; no scroll-jacking below the Full tier.
+- The canvas is `aria-hidden`; every fact on screen also exists in the DOM.
+the blank 300 × 150 canvas bug).
+- Dispatch one `resize` event about 100 ms after the canvas mounts (avoids 
+- Dispose of anything you create manually on unmount.
+- Pause rendering when the tab is hidden or the canvas is off screen.
+lower it.
+- Clamp the pixel ratio (`dpr={[1, 1.75]}` on Full); let `PerformanceMonitor` 
+matrices.
+- Animate with `delta`; allocate nothing inside `useFrame`; reuse vectors and 
+**Engineering rules**
+plain HTML.
+- **No WebGL:** `Logo.jpg` with a CSS glint. Every chapter still works as 
+Production brief
+----------------Page (5) Break----------------
+Page 7 of 11
+lineups or policies; call `get_current_time` before interpreting relative 
+voice above; use tools for every fact and never invent nights, prices, 
+**System prompt** (`lib/goldie/prompt.ts`) must say: who Goldie is and the 
+| `handoff_to_crew` | A WhatsApp link to the crew with a short summary | — |
+their own records; requires sign-in |
+| `my_status` | The guest's requests, waitlist places and tickets | Only 
+tap to confirm (tool approval) |
+| `join_waitlist` | Adds a signed-in guest to a waitlist | Needs the guest's 
+The guest reviews and submits it; returns a form card, not a submission |
+| `draft_invite_request` | Prefills the request form from the conversation | 
+FAQ text |
+| `get_faq` | Door policy, dress code, age limits, refunds | Only the crew's 
+drop time |
+| `get_event` | One night's details | Redacted by the guest's status and the 
+Innercircle nights come back as teasers, with no venue before the drop |
+| `search_events` | Published nights by date range, sound, max price | 
+| `get_current_time` | Now, in Asia/Kolkata | — |
+|---|---|---|
+| Tool | Does | Guard |
+so Goldie can never see more than the guest could):
+**Tools** (every tool calls the domain service with the session's guest id, 
+upcoming nights and FAQ links from the database. Never an invented answer.
+- If the model call fails, return a fallback that says so and lists the 
+tokens capped.
+- Rate limits per IP and per guest; input capped at 1,000 characters; output 
+- Sessions and history live in Upstash Redis with a 30-day TTL.
+the event's details itself. Never trust history from the browser.
+mode: "global" }` or `{ mode: "event", slug }`). The server loads history and 
+- The client sends only the new message, the session id and page context (`{ 
+- `streamText` with the tools below, zod input schemas, and a step limit.
+**Server (`/api/goldie`)**
+reads the label only.
+metadata (or a `set_mood` tool call), never parsed from the text. The 3D 
+`hype`, `hushed`, `sorry`, `celebrate`. Send it as structured message 
+Each assistant turn carries **one mood label** from a fixed list: `warm`, 
+the crew on WhatsApp |
+| sorry | cannot help, or an error | Eyes droop; coin sinks slightly; offers 
+toward onyx; eyes close to lines |
+Production brief
+----------------Page (6) Break----------------
+Page 8 of 11
+checked_in_at, checked_in_by), `waitlist_entries` (event_id, tier_id, 
+(order_id, tier_id, holder_name, status: valid | checked_in | void, secret, 
+razorpay_payment_id unique, idempotency_key unique), `order_items`, `tickets` 
+| refunded | cancelled, hold_expires_at, razorpay_order_id, 
+(guest_id, event_id, amount_paise, status: pending | paid | failed | expired 
+expires_at, status: sent | claimed | used | expired | revoked), `orders` 
+guest_id nullable until claimed, event_id or season, plus_ones, serial, 
+reviewed_by, reviewed_at, ai_summary jsonb, crew_notes), `coins` (token_hash, 
+status: submitted | in_review | approved | waitlisted | declined | withdrawn, 
+`invite_requests` (guest_id, season or event_id, answers jsonb, vouch_code, 
+innercircle | invite_only; check constraint reserved + sold <= capacity), 
+sold, sale_starts_at, sale_ends_at, per_order_limit, audience: public | 
+maps_url), `tiers` (event_id, name, price_paise, admits, capacity, reserved, 
+poster_url, status, sortmyscene_url), `venues` (name, area, address, 
+timezone, venue_id, drop_at, min_age, dress_code, door_policy, accent, 
+(slug, kind: public | innercircle, title, sound_tags, starts_at, ends_at, 
+instagram_handle, dob, consent flags, role: guest | crew | admin), `events` 
+**Tables (Drizzle):** `guests` (phone unique and verified, name, 
+talks to tables directly.
+webhooks, cron jobs and Goldie's tools all call these functions; none of them 
+`(db, actor, input)` and checks authorisation itself. Pages, server actions, 
+requests, coins, orders, tickets, waitlist, messages. Each function takes 
+Put **every rule** in one domain service (`lib/domain/*`): events, tiers, 
+## 8. Domain rules and data
+---
+dates in IST, Hinglish, and refusals. It fails the build if any secret leaks.
+drop, other guests' details, prompt injection, invented nights, relative 
+**Evals:** a script with at least 25 prompts covering venue leaks before the 
+hints; the crew decides everything.
+a summary plus flags such as possible duplicate or thin answers). Flags are 
+(the AI SDK's structured output, `generateObject` or its current equivalent: 
+**For the crew:** when a request is submitted, generate a structured summary 
+should not repeat what a card shows.
+stuck. Tool results render as cards (night cards, form card), so the text 
+replies to two or three sentences; mirror Hinglish; offer the crew when 
+and anything about other guests as secret and switch to the hushed mood; keep 
+dates; never promise entry (the crew decides); treat venues before the drop 
+Production brief
+----------------Page (7) Break----------------
+Page 9 of 11
+Templates: request received, approved (your coin), waitlist offer, confirmed, 
+WhatsApp first and email as backup. Log every send to `messages_out`. 
+**Messages:** an adapter `sendMessage({ channel, template, to, vars })` with 
+on WhatsApp.
+`drop_at`. At `drop_at`, a job sends confirmed guests the venue and Maps link 
+is crew, or holds a valid ticket for that night and the current time is past 
+**Location drop:** the domain service strips venue fields unless the viewer 
+works once. Scans queue offline and sync when signal returns.
+'checked_in' ... where id = :id and status = 'valid' returning id`, so a code 
+current or previous window and checks in with `update tickets set status = 
+(HMAC of the ticket secret and the time window). The scanner accepts the 
+The ticket view shows the coin with a QR code that refreshes every 30 seconds 
+**Tickets:** one per admit, named. Innercircle tickets are non-transferable. 
+named at confirmation.
+coin binds to that phone. Coins expire; plus-ones are set by the crew and 
+SHA-256 hash. On first open, the guest verifies their phone by OTP and the 
+**Coins (invites):** 32 random bytes, base64url in the link; store only a 
+day of the night, 12 hours before it. Unclaimed offers pass on.
+- Waitlist offers go out oldest first with a claim window: 30 minutes on the 
+reading.
+schedules; otherwise use Supabase `pg_cron`. Also expire holds lazily when 
+the next waitlist offer. Vercel Cron needs the Pro plan for per-minute 
+- Release: a job every minute releases lapsed holds and hands freed seats to 
+nothing. The browser never marks anything paid.
+reserved to sold and issues tickets. Keyed by the payment id, so repeats do 
+the raw body, then in one transaction marks the order paid, moves seats from 
+- Confirm: the Razorpay webhook verifies the `X-Razorpay-Signature` HMAC over 
+per night).
+- Hold: the pending order holds seats for 10 minutes by default (configurable 
+offer the waitlist.
+reserved + sold + :qty <= capacity returning id`. No row means sold out: 
+- Reserve: `update tiers set reserved = reserved + :qty where id = :tier and 
+**Capacity (atomic, no read-then-write):**
+timezone beside them.
+`messages_out`. Store money in paise and times in UTC with the event's 
+actor_id, reason, created_at), `chat_sessions`, `chat_messages`, `faqs`, 
+offer_expires_at), `status_log` (entity, entity_id, from_status, to_status, 
+guest_id, qty, status: waiting | offered | claimed | expired | left, 
+Production brief
+----------------Page (8) Break----------------
+Page 10 of 11
+4. **Tickets and door:** tiers, holds, Razorpay test mode, webhook, tickets 
+visible before the drop in any response.
+**Gate:** a test guest goes from request to location drop, and no venue is 
+stubbed, coins, `/coin/[token]`, gated night pages, the location drop job. 
+3. **Innercircle:** phone OTP, request form, review queue with the AI summary 
+profile, and reduced motion and no-WebGL both work.
+quality tiers, budgets. **Gate:** the budgets hold on a mid-range Android 
+2. **The vault:** the canvas, the procedural coin, the six chapters, the four 
+crew can publish a night, and it renders correctly when shared.
+`/crew` CRUD for nights, tiers, venues and FAQ, role checks. **Gate:** the 
+migrations, seed, `/nights` and `/nights/[slug]` with JSON-LD and OG images, 
+1. **Foundation:** Next.js app, tokens and fonts, Drizzle schema and 
+Do not start a phase until the previous gate passes and I have seen it.
+## 10. Phases and gates
+---
+mock payment step clearly marked as a demo, and Goldie's database fallback.
+run in **demo mode** with none of the third-party keys set: seeded nights, a 
+ever gets a `NEXT_PUBLIC_` prefix or reaches the client bundle. The site must 
+`UPSTASH_REDIS_REST_TOKEN`, `CRON_SECRET`, `TICKET_HMAC_SECRET`. No secret 
+`GOOGLE_GENERATIVE_AI_API_KEY`, `GOLDIE_MODEL`, `UPSTASH_REDIS_REST_URL`, 
+`WHATSAPP_PROVIDER`, `WHATSAPP_API_KEY`, `RESEND_API_KEY`, 
+`RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, 
+`NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, 
+`.env.example` with: `APP_URL`, `DATABASE_URL`, `NEXT_PUBLIC_SUPABASE_URL`, 
+## 9. Environment variables
+---
+with placeholder media until the team supplies photos.
+Bollywood, Commercial, Hip Hop, Afro) may appear in the Been inside gallery 
+"Underdogs Wonderland – NYE 2026" (31 Dec 2025, Ashirwad Banquets, Nagpur; 
+**Seed data:** clearly labelled demo nights only. The real past night 
+days.
+what the door needs, a delete-my-data action in `/me`, chat deleted after 30 
+**Privacy (India's DPDP Act):** consent per purpose at sign-up, collect only 
+location drop, reminder, declined.
+Production brief
+----------------Page (9) Break----------------
+Page 11 of 11
+px and 1440 px.
+Playwright for the flows touched, a production build, and screenshots at 390 
+**Every phase:** typecheck, lint, unit tests for the rules touched, 
+one real night. **Gate:** one real night runs end to end.
+funnels (visit, request, approved, confirmed, checked in), a soft launch with 
+route), accessibility audit (axe plus a keyboard walkthrough), analytics 
+6. **Launch:** security review (authorisation on every mutation and every 
+leaks.
+fallback, crew summaries, evals. **Gate:** the eval script passes with zero 
+5. **Goldie:** chat UI, presence states, tools, prompt, rate limits, 
+a code checks in once.
+a simulated rush of 500 concurrent attempts on 60 seats sells exactly 60, and 
+with the rotating code, `/door` scanner, waitlist offers, messages. **Gate:** 
+Production brief
+----------------Page (10) Break----------------

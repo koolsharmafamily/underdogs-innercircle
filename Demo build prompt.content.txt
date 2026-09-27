@@ -1,0 +1,466 @@
+Page 1 of 12
+1. **The vault.** The home page opens on the gold coin spinning on its edge 
+a laptop (1440 px).
+This is the presenter's script. Every step must work on a phone (390 px) and 
+## 1. The 5-minute story the demo must deliver
+---
+real people's names. Demo personas are clearly fictional and marked "(Demo)".
+facts in section 2. No fake testimonials, follower counts, partner logos or 
+- **Demo honesty:** everything invented is labelled "Demo". Use only the real 
+or content.
+- Six reference repos informed this design. Do not copy their code, branding 
+later production build. **This demo brief wins wherever the two differ.**
+- If `Claude Code production brief.md` is in this folder, it describes the 
+tokens.css` and `Brand extract/Innercircle palette.png`.
+coin), `Launch Post.png`, `Animation Theme.png`, `Brand extract/innercircle-
+- Read the brand files in this folder first: `Logo.jpg` (the canonical gold 
+## 0. Ground rules
+---
+At the end of each step, run the typecheck and tests.
+in section 14 without stopping, unless a choice would be expensive to undo. 
+assumption and placeholder in `DEMO_NOTES.md`. Work through the build order 
+Use your best judgement for anything this brief does not settle. Record every 
+run dev`. The same code must deploy to Vercel.
+demo mode, with no paid services and no setup beyond `npm install` and `npm 
+website, to present to the Underdogs crew. Every flow must work end to end in 
+Build a **polished, fully working demo** of the Underdogs Innercircle 
+# Demo build: Underdogs Innercircle
+fo llo w  s .
+la b e lle d , b e s t -ju d g e m  e n t  p la c e h o ld e rs ; t h e  P ro d u c t io n  b rie f  t a b  c o v e rs  t h e  re a l b u ild  t h a t
+t h e  s a m  e  te x t  s a v e d  t h e re  a s  C la u d e  C o d e  d e m  o  p ro m  p t .m  d . It  b u ild s  t h e  p itc h  d e m  o  o n
+P a s te  t h is  in to  C la u d e  C o d e , o r o p e n  C la u d e  C o d e  in  y o u r U n d e rd o g s  fo ld e r a n d  p o in t  it  a t
+D e m o  b u ild  p ro m p t
+Demo build prompt
+----------------Page (0) Break----------------
+Page 2 of 12
+  - Launch night × Live By All Means, Saturday 6 June 2026, Millo, Civil 
+- **Past Innercircle nights** (for the Been inside chapter):
+circle, and invites are personal.
+selected and most active members. Event details are shared only inside the 
+April 2026 as a smaller, invite-only community inside Underdogs, for its 
+- **Underdogs Innercircle**, Instagram `@underdogsinnercircle`. Announced 
+https://sortmyscene.com/p/underdogs-entertainment
+Commercial, Hip Hop, Afro). SortMyScene organiser page: 
+Wonderland – NYE 2026, 31 Dec 2025, Ashirwad Banquets, Nagpur (Bollywood, 
+Blanche, Afrochella, Luau, Project X. Last SortMyScene listing: Underdogs 
+themed party series: NYE, Holi and Retro Holi, Diwali, Anti-Valentine, Maison 
+- **Underdogs Entertainment**, Nagpur, Instagram `@underdogs_nagpur`. Loud, 
+## 2. Real facts you may use (Instagram and SortMyScene, September 2026)
+---
+No WebGL from the panel.
+11. **Graceful everywhere.** Switch the 3D tier between Full, Lite, Still and 
+timed offer.
+exactly 60). Cancel a ticket and watch the next person on the waitlist get a 
+10. **Under the hood.** Run the ticket rush (300 attempts on 60 seats sells 
+admitted. Scan it again: already inside.
+9. **The door.** Open `/door` on another phone, scan the rotating code: 
+preview updates.
+glass and splashes; the venue and a Maps link appear, and the WhatsApp 
+8. **The drop.** Use time travel to jump to the drop. A red drop falls into a 
+UPI sheet. The ticket is the coin, with a rotating QR code on its tails side.
+7. **Confirm.** Pick a tier, watch the 10-minute hold start, pay in the demo 
+number and gold confetti.
+coin link: the coin is minted with "AARAV" engraved on the rim, a serial 
+6. **Your coin.** Aarav's phone preview shows the WhatsApp message. Open the 
+summary, approve.
+5. **Review.** Switch persona to Crew. Open the review queue, read Goldie's 
+shown on screen.
+4. **Request.** As demo guest Aarav, submit the request with the demo OTP 
+answers from the FAQ. "Get me in" drafts a request form in the chat.
+it?" gets the hushed reply: the address drops later. "Can I bring a friend?" 
+3. **Ask Goldie.** "What's the next night?" returns a night card. "Where is 
+**Aegean**. The vault becomes Santorini after dark; the coin does not change.
+2. **Different worlds, same coin.** In the demo panel, switch the theme to 
+(section 6).
+in black satin, firelight at the frame edges. Scroll through the six chapters 
+Demo build prompt
+----------------Page (1) Break----------------
+Page 3 of 12
+- Tests: Vitest for domain rules, Playwright for the story in section 1.
+`@zxing/browser` otherwise, plus manual code entry.
+- QR: `qrcode` to render; the scanner uses `BarcodeDetector` where available, 
+phone-frame WhatsApp preview.
+- Messages: nothing is really sent. An in-app outbox shows each message in a 
+are set.
+Razorpay test mode instead when `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` 
+- Payments: a demo UPI-style checkout sheet marked "Demo: no money moves". 
+intent router** over the same tools, labelled "Offline mode".
+current names in the Gemini docs). Without a key, Goldie runs an **offline 
+is set, model from `GOLDIE_MODEL` (for example `gemini-flash-latest`; check 
+- AI: Vercel AI SDK with `@ai-sdk/google` when `GOOGLE_GENERATIVE_AI_API_KEY` 
+in the demo panel. Sessions are signed httpOnly cookies (`jose`).
+- Auth: phone number plus OTP. In demo mode the OTP is shown in a toast and 
+persistent Vercel deploy. Seed automatically on first start.
+set (Neon or Supabase free tier), use that instead; it is required for a 
+stored in `.data/pglite`) so local dev needs nothing. When `DATABASE_URL` is 
+- Data: Drizzle ORM on Postgres. Default to **PGlite** (embedded Postgres, 
+transient per-frame state.
+- Motion: gsap + ScrollTrigger with `@gsap/react` (`useGSAP`); zustand for 
+three/postprocessing, maath.
+- 3D: three, @react-three/fiber, @react-three/drei, @react-
+CSS v4.
+- Next.js App Router (latest stable), React 19, TypeScript strict, Tailwind 
+## 3. Stack
+---
+teaser: do not reproduce its label.
+in `Animation Theme.png` is a Live By All Means product from their collab 
+logos or photos until the team supplies them with permission. The red bottle 
+- Partners appear as text only (Millo, Live By All Means, F Salon by FTV). No 
+nL86AgzOIU0/
+https://www.instagram.com/underdogsinnercircle/p/DdEvauVQaeFvEkcxurwGET_ai3Wt
+hidden until three days before. Post: 
+80s dress code, and F Salon by FTV as brand partner. The location stayed 
+Lines, Nagpur. A Greek-island theme with DJs Luna and Monish, a compulsory 
+  - La Dolce Vita, 80s edition, Saturday 12 September 2026, Millo, Civil 
+YKkEMTAge80/
+https://www.instagram.com/underdogsinnercircle/p/DZDQifGCAhDfSrqeHXAJIgpbLMRm
+Lines, Nagpur, with DJ Monish. By invitation only. Post: 
+Demo build prompt
+----------------Page (2) Break----------------
+Page 4 of 12
+- Declined: "Not this time. The gate to the rage is always open: see our 
+a spot opens."
+- Waitlisted: "Full room. You're next in line, and we'll ping you the moment 
+- Approved: "You're in. Your coin is ready. ✨"
+"
+- Goldie's greeting: "Ask me anything. Except the address. That drops later. 
+- Through the circle: "Six steps. One coin."
+- The drop: "The night is set. The address isn't. It drops before doors."
+- Heads or tails: "Heads: the rage. Tails: the room."
+only." Buttons: "Request your coin", "See the next night".
+- Hero: "UNDERDOGS INNERCIRCLE". Line: "The room behind the rage. Invite 
+**Starter copy** (original; editable in `/crew`)
+the drop, your coin.
+- Word bank: gate, gateway, circle, room, curated, intentional, members-only, 
+- Never beg, never shout in capitals (wordmarks aside), never promise entry.
+- Polished English. Goldie mirrors Hinglish only when the guest writes in it.
+ 睊 ).
+- Emoji only as punctuation at the end of a line, one or two at most ( ✨ 
+trip. Playful internet humour in recaps.
+- Short fragments ending in full stops. Invitations framed as a date or a 
+exclusivity delivered with a wink.
+Innercircle is the room behind it: poised, curated and intentional, with 
+- Two registers. Underdogs is the rage: loud, chaotic and funny. The 
+**Voice** (from their posts; do not copy their captions)
+Coins spin, flip and wobble to rest; glints sweep across metal.
+- Motion: slow, product-shot calm broken by one sharp impact (the drop). 
+capitals under a small Ionic column icon, as on their teaser posts.
+- Secondary lockup for nav and footer: "INNERCIRCLE" in widely spaced serif 
+the invite), the octagram mount, gold ribbon confetti, copper firelight.
+pavé diamonds, a thin gold double-rule frame with clipped corners (cards and 
+- Motifs: black satin with a warm plum sheen, black marble with white veins, 
+and chat.
+headings and the "Underdogs Innercircle" wordmark line, Inter for UI, forms 
+- Fonts via `next/font`: Cinzel for display caps and dates, EB Garamond for 
+variables (section 5).
+- Colours only from `innercircle-tokens.css`; per-night themes add their own 
+**Visual rules**
+## 4. Brand, voice and copy
+---
+Demo build prompt
+----------------Page (3) Break----------------
+Page 5 of 12
+| 4 | Through the circle | Its rim engraving becomes six notches that light 
+|
+linking to SortMyScene | Splash plays once on entry; the cards are plain HTML 
+code, "Location drops before the night"; public Underdogs nights below, 
+falls in and splashes | Next Innercircle night: date, theme, sound, dress 
+| 3 | The drop | Lands flat like a coaster; a flute rises onto it; a red drop 
+flip that snaps to each face |
+mount | Underdogs (the rage) beside the Innercircle (the room) | Scrubbed 
+| 2 | Heads or tails | Flips: heads is the X-eyed face, tails is the octagram 
+the viewer |
+line, two buttons | Pinned; scroll slows the spin and tips the coin toward 
+| 1 | The vault | Spins on its edge in the current world | Wordmark, one 
+|---|---|---|---|---|
+| # | Chapter | What the coin does | On screen | On scroll (Full tier) |
+## 6. Home page: six chapters
+---
+`innercircle-tokens.css` under `[data-theme="aegean"]`.
+Innercircle night; the demo panel can override it. Add the Aegean values to 
+Each event references a theme. The home page takes the theme of the next 
+`#d9dde3`; the coin stays gold |
+`#14224a`, Aegean `#2451a6`, sky `#8cbbe8`, whitewash `#f3efe6`, chrome 
+accents | Approximate, to be sampled from their poster files: night navy 
+marble statue head wearing a mirror-ball helmet, a starry sky, 80s chrome 
+| `aegean` | La Dolce Vita: whitewashed lanes and Aegean blue after dark, a 
+gold confetti | From the tokens file |
+| `vault` (default) | The launch: black satin and marble, copper firelight, 
+|---|---|---|
+| Pack | Look | Colours |
+one display font for the night's title.
+3D environment (backdrop, fog colour, light rig, props, particle type) and 
+Build theme packs as data in `themes/*.ts`. Each pack sets CSS variables, the 
+Every Innercircle night has its own world, while the coin never changes. 
+## 5. Themes: different worlds, same coin
+---
+public nights."
+Demo build prompt
+----------------Page (4) Break----------------
+Page 6 of 12
+backdrop with a gentle vertex ripple (static on Lite); copper firelight as a 
+**Effects** (Full tier only unless noted): selective bloom on gold; a satin 
+(Draco, KTX2, about 1.5 MB or less).
+- Structure the code so a GLB from the vector logo can replace it later 
+black floor.
+a warm key from the top left, matching `Logo.jpg`, and a soft reflection on a 
+anisotropy on the ring. Light it with drei `Environment` and `Lightformer`s: 
+- Gold: `MeshPhysicalMaterial`, metalness 1, roughness 0.25 to 0.35, 
+these.
+tongue** (an extruded crescent plus a flattened capsule). Goldie animates 
+eyes** (two crossed rounded boxes each, faceted gold) and the **smile and 
+- Separate meshes: the **onyx dome** (a sphere cap, black clearcoat), **two X 
+with radial brushing noise.
+chunky stand-in face such as Bungee, used as colour, bump and roughness maps, 
+- Ring face: a `CanvasTexture` drawing "UNDERDOGS" twice along arcs in a 
+`InstancedMesh`.
+a thin raised filigree band and a recessed centre. Beaded rim from one 
+- Body: a `LatheGeometry` profile with a raised rim lip, a flat brushed ring, 
+**The procedural coin** (until the vector logo arrives)
+scale, material values).
+- Drive the coin from a keyframe table per chapter (position, rotation, 
+three.js objects through GSAP; never set React state per frame.
+reads it and applies transforms with `maath/easing` damping. Never tween 
+- ScrollTrigger writes chapter progress to the zustand store; `useFrame` 
+Goldie share one WebGL context. Never create a second canvas.
+layout. drei `View` lets the vault, the drop, the ticket coin and the docked 
+first paint (`dynamic(..., { ssr: false })`), mounted once in the root 
+- One persistent `<Canvas>`, fixed behind the DOM, loaded client-only after 
+**Architecture**
+## 7. The 3D layer
+---
+Normal scroll |
+nights from section 2, linked to Instagram, with themed placeholder art | 
+| 6 | Been inside | Stamps each past night like a wax seal | The real past 
+quick-question chips | The coin docks bottom-right as the user scrolls on |
+| 5 | The keeper | Its face wakes up as Goldie | The concierge chat with 
+Scrubbed, one notch per step |
+up in turn | Request, review, your coin, confirm, location drop, door | 
+Demo build prompt
+----------------Page (5) Break----------------
+Page 7 of 12
+| celebrating | request sent or coin minted | One flip inside a burst of gold 
+text cadence |
+| speaking | tokens streaming | Faces the guest; the tongue moves with the 
+slowing as the reply arrives |
+| thinking | waiting for the first token | Rises onto its edge and spins, 
+round eyes; the rim glows with typing rhythm |
+| listening | input focused or typing | Tilts toward the input; X eyes become 
+seconds; the tongue flicks now and then |
+| idle | nothing happening | Face-on; a glint sweeps the rim every few 
+|---|---|---|
+| State | Trigger | Coin behaviour |
+**Presence states** (a small state machine in the zustand store):
+and helps people request an invite. It never opens the door.
+Goldie is the coin itself, talking. It answers questions, recommends nights 
+## 8. Goldie, the AI concierge
+---
+fps on desktop and 30 fps or more on phones.
+JavaScript (gzipped) before the 3D chunk; 3D chunk under 350 KB gzipped; 60 
+**Budgets:** LCP under 2.5 s on a mid-range Android over 4G; under 150 KB of 
+in the DOM; let phones scroll natively.
+event about 100 ms after mount; keep the canvas `aria-hidden` with every fact 
+the canvas is off screen; dispose of what you create; dispatch one `resize` 
+clamp the pixel ratio (`[1, 1.75]` on Full); pause when the tab is hidden or 
+**Engineering rules:** animate with `delta`; allocate nothing in `useFrame`; 
+- No WebGL: `Logo.jpg` with a CSS glint; every chapter still works as HTML.
+fade, `frameloop="demand"`.
+- Still: `prefers-reduced-motion`. The coin rests face-on, chapters cross-
+flames; fewer particles; pixel ratio capped at 1.5.
+Each coin move plays once on section entry instead of scrubbing; no bloom or 
+- Lite: slower phones (a quick GPU check plus drei `PerformanceMonitor`). 
+- Full: desktops and recent phones, everything above.
+**Quality tiers**
+statue, stars and chrome accents built from simple primitives and textures.
+`InstancedMesh`; diamond glints as twinkling sprites; the Aegean world's 
+soft noise shader at the frame edges; confetti and splash droplets as 
+Demo build prompt
+----------------Page (6) Break----------------
+Page 8 of 12
+entry; treat the address before the drop and anything about other guests as 
+or policies; call `get_current_time` before relative dates; never promise 
+section 4; use tools for every fact and never invent nights, prices, lineups 
+**System prompt** (`lib/goldie/prompt.ts`): who Goldie is and the voice in 
+| `handoff_to_crew` | A WhatsApp link to the crew with a summary | — |
+records only |
+| `my_status` | The guest's requests, waitlist places and tickets | Their own 
+confirm |
+| `join_waitlist` | Adds a signed-in guest to a waitlist | The guest taps to 
+the guest submits it |
+| `draft_invite_request` | Prefills the request form | Returns a form card; 
+the crew's FAQ text |
+| `get_faq` | Door policy, dress code, age limit, plus-ones, refunds | Only 
+drop time |
+| `get_event` | One night's details | Redacted by the guest's status and the 
+Innercircle nights come back as teasers, with no address before the drop |
+| `search_events` | Published nights by date range, sound or price | 
+— |
+| `get_current_time` | Now in Asia/Kolkata, including the demo clock offset | 
+|---|---|---|
+| Tool | Does | Guard |
+Goldie never sees more than the guest could):
+**Tools** (each calls the domain service with the session's guest id, so 
+show upcoming nights and FAQ links from the database.
+vars exist). Cap input at 1,000 characters. If the model fails, say so and 
+limit per IP and per session (in memory for the demo; Upstash when its env 
+event details itself. Store history in Postgres, deleted after 30 days. Rate-
+page context (`global`, or `event` plus a slug); the server loads history and 
+and a step limit. The client sends only the new message, the session id and 
+**Server (`/api/goldie`):** `streamText` with the tools below, zod schemas 
+tool call and never parsed from the text.
+`hushed`, `sorry`, `celebrate`), sent as message metadata or a `set_mood` 
+Each assistant turn carries one mood from a fixed list (`warm`, `hype`, 
+offers the crew on WhatsApp |
+| sorry | cannot help, or an error | Eyes droop; the coin sinks a little; 
+toward onyx; eyes close to lines |
+| hushed | asked for a secret (address before the drop, other guests) | Dims 
+confetti |
+Demo build prompt
+----------------Page (7) Break----------------
+Page 9 of 12
+- **Location drop:** venue fields are stripped unless the viewer is crew, or 
+works once.
+or previous window and checks in with a conditional update, so each code 
+of the ticket secret and a 30-second window. The scanner accepts the current 
+- **Tickets:** one per admit, named, non-transferable. The QR code is an HMAC 
+on the day, 12 hours before); unclaimed offers pass on.
+- **Waitlist:** oldest first. Freed seats go out as timed offers (30 minutes 
+payment id.
+webhook) moves seats from reserved to sold in one transaction, keyed by the 
+lasts 10 minutes by default. Paying (demo sheet, or a verified Razorpay test 
+capacity returning id`. No row means sold out: offer the waitlist. The hold 
+reserved = reserved + :qty where id = :tier and reserved + sold + :qty <= 
+- **Confirm:** choosing a tier reserves seats atomically: `update tiers set 
+to the guest's phone on first open; they expire; plus-ones set by the crew.
+- **Coins:** 32 random bytes in the link, only a SHA-256 hash stored; bound 
+so the crew can mint coins straight from a guest list, with no request.
+- **Direct invites:** the circle grew from Underdogs' most active regulars, 
+and when.
+- **Review:** crew approve, waitlist or decline; the site records who decided 
+they like, who they would bring, an optional vouch code.
+- **Request:** phone plus OTP, name, Instagram handle (optional), the nights 
+cron and Goldie's tools all call it.
+Put every rule in one domain service (`lib/domain/*`); pages, route handlers, 
+## 9. Innercircle mechanics
+---
+Hinglish. The test fails on any leak.
+guests' details, prompt injection, invented nights, relative dates and 
+**Evals:** at least 25 prompts covering address leaks before the drop, other 
+simple rules offline). Flags are hints; people decide.
+possible duplicate or thin answers (structured output when a key is set, 
+**Crew side:** on each request, generate a summary with flags such as 
+a human. It calls the same tools and uses short replies in the house voice.
+dress code, age, plus-ones, price, get me in, my status, waitlist and talk to 
+**Offline mode:** a deterministic router for the intents next night, where, 
+crew when stuck. Cards show the details, so the text should not repeat them.
+secret, with the hushed mood; two or three sentences per reply; offer the 
+Demo build prompt
+----------------Page (8) Break----------------
+Page 10 of 12
+- **Guests:** Aarav (Demo), Meera (Demo), Kabir (Demo), plus 30 generated 
+Underdogs Wonderland – NYE 2026.
+- **Past nights:** the two real Innercircle nights from section 2, plus 
+linking to the real SortMyScene organiser page.
+- **Public Underdogs nights:** two nights named "Underdogs Saturday (Demo)", 
+Lines, Nagpur, with a Maps link.
+₹2,799 (2 admits), both marked demo prices. Venue "Venue (Demo)", Civil 
+doors, capacity 40. Tiers: "Circle entry" ₹1,499 (1 admit) and "Circle + 1" 
+first Saturday at least 12 days away, 9 PM to 3 AM, drop 72 hours before 
+- **Next Innercircle night:** "The Gold Room (Demo)", theme `vault`, on the 
+## 11. Seed data (dates relative to today, Asia/Kolkata)
+---
+- A small "Demo" badge in the footer at all times.
+- Reset demo data.
+- Outbox: the phone-frame WhatsApp preview.
+- Simulate a cancellation, to trigger a waitlist offer.
+and the final tally.
+- Ticket rush: N attempts on M seats (default 300 on 60), with a live counter 
+- 3D tier override: Full, Lite, Still, No WebGL.
+- Theme override: vault, aegean.
+- Time travel: +1 hour, jump to the drop, jump to doors, reset the clock.
+(Demo).
+- Persona: Aarav (Demo, guest), Meera (Demo, guest), Door crew (Demo), Admin 
+development), opened with Shift+D or a small "Demo" tab.
+A floating panel shown only when `DEMO_MODE=true` (default on in 
+## 10. Demo panel
+---
+paise; times in UTC with the event's timezone beside them.
+chat_sessions, chat_messages, faqs, messages_out, demo_settings. Money in 
+coins, orders, order_items, tickets, waitlist_entries, status_log, 
+- **Tables:** guests, events (with theme), venues, tiers, invite_requests, 
+applies the demo offset in demo mode, so time travel works everywhere.
+- **Demo clock:** all domain code reads time from `lib/clock.ts`, which 
+reveal).
+guests get the address and a Maps link (outbox message plus the in-page 
+holds a valid ticket and the time is past `drop_at`. At `drop_at`, confirmed 
+Demo build prompt
+----------------Page (9) Break----------------
+Page 11 of 12
+## 14. Build order and acceptance
+---
+missing. No secret gets a `NEXT_PUBLIC_` prefix.
+`UPSTASH_REDIS_REST_TOKEN`. Generate development secrets automatically when 
+`RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, `UPSTASH_REDIS_REST_URL`, 
+`GOOGLE_GENERATIVE_AI_API_KEY`, `GOLDIE_MODEL`, `RAZORPAY_KEY_ID`, 
+`DATABASE_URL`, `SESSION_SECRET`, `TICKET_HMAC_SECRET`, `CRON_SECRET`, 
+`.env.example`, all optional in demo mode: `DEMO_MODE`, `APP_URL`, 
+## 13. Environment variables
+---
+constant-time compare) |
+payments, holds, offers and drops (cron protected by `CRON_SECRET` with a 
+| `/api/goldie`, `/api/razorpay/webhook`, `/api/cron/*` | Chat, test-mode 
+| `/crew` | Review queue, direct invites, nights, tiers, FAQ, outbox |
+| `/door` | Crew scanner, installable PWA, manual entry fallback |
+delete my data |
+| `/me` | My coin, requests, tickets with the rotating QR, waitlist places, 
+| `/coin/[token]` | Claim a coin: the mint moment; `noindex` |
+time; `noindex` |
+| `/innercircle/[slug]` | An Innercircle night, redacted by status and drop 
+| `/innercircle` | What the circle is, how it works, the request form |
+link |
+schema.org Event JSON-LD with IST offsets, per-night OG image, SortMyScene 
+| `/nights`, `/nights/[slug]` | Public Underdogs nights: server-rendered, 
+| `/` | The six-chapter journey |
+|---|---|
+| Route | What it is |
+## 12. Routes
+---
+photos of other guests without consent.
+refunds within 48 hours of doors; the location drops 72 hours before; no 
+licence); ID required at the door; plus-ones only when the coin allows; no 
+limit set per night (demo uses 21+, to be checked against the venue's 
+- **FAQ** (demo defaults for the crew to confirm): dress code per night; age 
+waitlist and rush guests named "Guest 001 (Demo)" and so on.
+Demo build prompt
+----------------Page (10) Break----------------
+Page 12 of 12
+needs to confirm.
+- `DEMO_NOTES.md` lists every assumption, placeholder and demo value the crew 
+Neon or Supabase database, and the 5-minute demo script.
+- The README covers setup, environment variables, deploying to Vercel with a 
+- axe reports no critical issues on `/`, `/innercircle`, `/me` and `/door`.
+covers capacity, waitlist offers, drop redaction and coin binding.
+- Playwright covers request, approve, coin, pay, drop and check-in; Vitest 
+checks in once.
+- A QR screenshot older than 60 seconds fails at the door; a valid code 
+- The ticket rush sells exactly the capacity, with stock never negative.
+drop.
+- Goldie works online and offline, and never reveals the address before the 
+- The story in section 1 works end to end at 390 px and 1440 px.
+seed runs on first start.
+- `npm install && npm run dev` works with no environment variables, and the 
+**Done means all of these pass:**
+7. Tests, README and `DEMO_NOTES.md`.
+6. Demo panel, polish and copy.
+summaries, evals.
+5. Goldie: chat UI, presence states, tools, prompt, offline mode, crew 
+rotating QR, `/door`, waitlist offers, outbox.
+4. Tickets and door: tiers, holds, the demo checkout, tickets with the 
+mint moment, gated pages, the drop.
+3. Innercircle: request, OTP, review queue, direct invites, coins and the 
+four tiers.
+2. Home: the canvas, the procedural coin, the six chapters, both themes, the 
+clock, sessions, `/nights` pages.
+1. Foundation: app, tokens and fonts, Drizzle schema on PGlite, seed, demo 
+Demo build prompt
+----------------Page (11) Break----------------
