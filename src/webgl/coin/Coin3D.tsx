@@ -208,16 +208,18 @@ export function Coin3D() {
     const G = frame.story.G;
     const time = frame.time;
 
-    // Pointer parallax
-    const targetTiltX = frame.pointer.dampedY * 0.45;
-    const targetTiltY = frame.pointer.dampedX * 0.55;
+    // Pointer parallax: Normalized tilt with smooth maximum angle (approx 14 degrees = 0.25 rad)
+    const normX = typeof window !== 'undefined' ? (frame.pointer.dampedX / Math.max(1, window.innerWidth)) * 2 - 1 : 0;
+    const normY = typeof window !== 'undefined' ? -(frame.pointer.dampedY / Math.max(1, window.innerHeight)) * 2 + 1 : 0;
+    const targetTiltX = Math.max(-0.25, Math.min(0.25, normY * 0.22));
+    const targetTiltY = Math.max(-0.35, Math.min(0.35, normX * 0.3));
 
     // Position & rotation targets based on story progress
     let targetX = 0;
     let targetY = 0;
     let targetZ = 0;
     let targetRotX = 0;
-    let targetRotY = time * 0.9; // Continuous majestic spin on edge in Hero
+    let targetRotY = time * 0.32; // Stately, unhurried majestic spin on edge in Hero
     let targetRotZ = 0;
     let targetScale = 1.0;
 
@@ -228,7 +230,7 @@ export function Coin3D() {
       targetZ = -1.5;
       targetScale = 0.55;
       targetRotX = 0.3;
-      targetRotY = time * 0.3;
+      targetRotY = time * 0.15;
     } else if (overlay === 'concierge') {
       // During Goldie chat: docks bottom right and faces user
       targetX = 2.4;
@@ -236,15 +238,15 @@ export function Coin3D() {
       targetZ = 0.8;
       targetScale = 0.65;
       targetRotX = 0.2;
-      targetRotY = Math.sin(time * 2.5) * 0.15; // Gentle speaking tilt
+      targetRotY = Math.sin(time * 1.5) * 0.1; // Gentle speaking tilt
     } else if (G < 0.8) {
-      // S01 Hero: Center stage, spinning on edge in black satin
+      // S01 Hero: Center stage, spinning smoothly on edge in black satin
       targetX = 0;
       targetY = 1.0;
       targetZ = 0;
       targetScale = 1.05;
-      targetRotX = Math.PI / 2 + targetTiltX; // Standing on edge
-      targetRotY = time * 0.8 + targetTiltY;
+      targetRotX = Math.PI / 2 + targetTiltX;
+      targetRotY = time * 0.35 + targetTiltY;
     } else if (G < 1.8) {
       // S02 Heads or Tails: Flips slowly from heads to tails
       const u = (G - 0.8) / 1.0;
@@ -252,8 +254,8 @@ export function Coin3D() {
       targetY = 0.2;
       targetZ = 0.2;
       targetScale = 1.1;
-      targetRotX = Math.PI / 2 + Math.sin(u * Math.PI) * 0.5;
-      targetRotY = time * 0.4 + u * Math.PI; // Flip 180 deg
+      targetRotX = Math.PI / 2 + Math.sin(u * Math.PI) * 0.4;
+      targetRotY = time * 0.18 + u * Math.PI; // Flip 180 deg
     } else if (G < 2.8) {
       // S03 The Drop: Lands flat like a coaster for the champagne flute
       const u = (G - 1.8) / 1.0;
@@ -262,7 +264,7 @@ export function Coin3D() {
       targetZ = 0.5;
       targetScale = 1.15;
       targetRotX = THREE.MathUtils.lerp(Math.PI / 2, 0.25, u); // Laying flat
-      targetRotY = time * 0.2;
+      targetRotY = time * 0.12;
     } else if (G < 3.8) {
       // S04 Capabilities: Hovering central icon
       targetX = -1.8;
@@ -270,7 +272,7 @@ export function Coin3D() {
       targetZ = 0.3;
       targetScale = 1.0;
       targetRotX = Math.PI / 2 + targetTiltX;
-      targetRotY = time * 0.5;
+      targetRotY = time * 0.2;
     } else if (G < 4.8) {
       // S05 Process: Gateway alignment
       targetX = 0;
@@ -278,7 +280,7 @@ export function Coin3D() {
       targetZ = -0.5;
       targetScale = 0.95;
       targetRotX = Math.PI / 2;
-      targetRotY = time * 0.6;
+      targetRotY = time * 0.22;
     } else if (G < 5.8) {
       // S06 Proof: Floating among members
       targetX = 2.0;
@@ -286,7 +288,7 @@ export function Coin3D() {
       targetZ = 0.4;
       targetScale = 1.0;
       targetRotX = Math.PI / 2 + targetTiltX;
-      targetRotY = time * 0.3;
+      targetRotY = time * 0.16;
     } else {
       // S07 Contact / Mint: The Golden Climax — large central medallion
       targetX = 0;
@@ -294,20 +296,20 @@ export function Coin3D() {
       targetZ = 0.6;
       targetScale = 1.25;
       targetRotX = Math.PI / 2 + targetTiltX;
-      targetRotY = time * 0.4 + targetTiltY;
+      targetRotY = time * 0.2 + targetTiltY;
     }
 
-    // Smooth physical damping
-    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, dt * 4.5);
-    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, dt * 4.5);
-    groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, dt * 4.5);
+    // Heavy luxury damping (feels like solid physical 24k gold coin with inertia)
+    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, dt * 3.0);
+    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, dt * 3.0);
+    groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, dt * 3.0);
 
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, dt * 5.0);
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, dt * 5.0);
-    groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, targetRotZ, dt * 5.0);
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, dt * 2.8);
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, dt * 2.8);
+    groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, targetRotZ, dt * 2.8);
 
     const curScale = groupRef.current.scale.x;
-    const nextScale = THREE.MathUtils.lerp(curScale, targetScale, dt * 4.0);
+    const nextScale = THREE.MathUtils.lerp(curScale, targetScale, dt * 3.0);
     groupRef.current.scale.set(nextScale, nextScale, nextScale);
   });
 

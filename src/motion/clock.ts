@@ -97,8 +97,8 @@ export function startClock() {
     // Update raw story progress based on active scroll
     updateStoryFromScroll(effectiveScroll);
 
-    // Pointer exponential damping
-    const pDamp = 1 - Math.exp(-8 * dt);
+    // Pointer exponential damping (cushioned, velvety tracking)
+    const pDamp = 1 - Math.exp(-4.5 * dt);
     frame.pointer.dampedX += (frame.pointer.x - frame.pointer.dampedX) * pDamp;
     frame.pointer.dampedY += (frame.pointer.y - frame.pointer.dampedY) * pDamp;
 
