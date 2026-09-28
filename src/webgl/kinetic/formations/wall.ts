@@ -9,14 +9,14 @@ export function buildWall(n: number, ctx: LayoutContext): FormationData {
   const cell = new Float32Array(n * 4); // u0, v0, du, dv for each fin
 
   const isPortrait = ctx.aspect < 1 || ctx.tier === 'T1';
-  const cols = isPortrait ? 18 : 48;
-  const rows = isPortrait ? 6 : 7;
+  const cols = isPortrait ? 10 : 24;   // was 18/48 — halved for subtlety
+  const rows = isPortrait ? 4 : 5;     // was 6/7 — fewer rows
   const screenFins = cols * rows;
 
-  const pitchX = 0.15;
-  const pitchY = 0.62;
-  const curveRadius = 14.0;
-  const centerY = 3.2;
+  const pitchX = 0.22;                 // was 0.15 — wider spacing
+  const pitchY = 0.85;                 // was 0.62 — more vertical breathing room
+  const curveRadius = 18.0;            // was 14.0 — pushed further back
+  const centerY = 3.6;                 // was 3.2 — lifted slightly
 
   const tempQ = new THREE.Quaternion();
   const euler = new THREE.Euler();

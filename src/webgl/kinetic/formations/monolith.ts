@@ -8,13 +8,13 @@ export function buildMonolith(n: number, ctx: LayoutContext): FormationData {
   const role = new Uint8Array(n);
 
   const isPortrait = ctx.aspect < 1 || ctx.tier === 'T1';
-  // Vault Colonnade: Symmetrical curved architectural wings that frame the central Gold Medallion
-  // Leaving a wide central aperture (x in [-3.5, 3.5]) completely open
-  const colonnadeRadius = isPortrait ? 5.8 : 7.2;
-  const numLevels = Math.min(18, Math.floor(n / 40));
+  // Vault Colonnade: Pushed further out so slats are distant atmospheric texture
+  // Leaving a wide central aperture (x in [-4.5, 4.5]) completely open
+  const colonnadeRadius = isPortrait ? 7.5 : 9.5;  // was 5.8/7.2 — pushed further
+  const numLevels = Math.min(12, Math.floor(n / 30));  // was 18 — fewer levels
   const slatsPerLevel = Math.floor(n / numLevels);
-  const baseY = 0.2;
-  const height = 6.2;
+  const baseY = 0.5;
+  const height = 5.8;
   const pitchY = height / numLevels;
 
   const tempQ = new THREE.Quaternion();

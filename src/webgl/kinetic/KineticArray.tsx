@@ -155,28 +155,31 @@ export function KineticArray() {
     meshRef.current.setMatrixAt(0, zeroMat);
     meshRef.current.instanceMatrix.needsUpdate = true;
 
-    // Material blend (Obsidian -> Ceramic in White Room -> Chrome in Mark)
+    // Material blend (Obsidian -> Ceramic in White Room -> Chrome in Mark) — all states are ghostly-subtle
     if (materialRef.current) {
       const isWhiteRoom = frame.acts.a === 'whiteRoom' || frame.acts.b === 'whiteRoom';
       const isContact = curScene.id === 'contact';
 
       if (isWhiteRoom) {
-        materialRef.current.color.lerp(new THREE.Color('#EDE8DF'), 0.1);
-        materialRef.current.roughness = THREE.MathUtils.lerp(materialRef.current.roughness, 0.65, 0.1);
-        materialRef.current.metalness = THREE.MathUtils.lerp(materialRef.current.metalness, 0.0, 0.1);
-        materialRef.current.clearcoat = THREE.MathUtils.lerp(materialRef.current.clearcoat, 0.15, 0.1);
+        materialRef.current.color.lerp(new THREE.Color('#EDE8DF'), 0.08);
+        materialRef.current.roughness = THREE.MathUtils.lerp(materialRef.current.roughness, 0.72, 0.08);
+        materialRef.current.metalness = THREE.MathUtils.lerp(materialRef.current.metalness, 0.0, 0.08);
+        materialRef.current.clearcoat = THREE.MathUtils.lerp(materialRef.current.clearcoat, 0.08, 0.08);
+        materialRef.current.opacity = THREE.MathUtils.lerp(materialRef.current.opacity, 0.12, 0.08);
       } else if (isContact) {
-        // Contact mark is high-polish gold/chrome (Part 7.2)
-        materialRef.current.color.lerp(new THREE.Color('#F3E0AC'), 0.1);
-        materialRef.current.roughness = THREE.MathUtils.lerp(materialRef.current.roughness, 0.08, 0.1);
-        materialRef.current.metalness = THREE.MathUtils.lerp(materialRef.current.metalness, 0.92, 0.1);
-        materialRef.current.clearcoat = THREE.MathUtils.lerp(materialRef.current.clearcoat, 0.9, 0.1);
+        // Contact mark — subtle gold shimmer
+        materialRef.current.color.lerp(new THREE.Color('#F3E0AC'), 0.08);
+        materialRef.current.roughness = THREE.MathUtils.lerp(materialRef.current.roughness, 0.15, 0.08);
+        materialRef.current.metalness = THREE.MathUtils.lerp(materialRef.current.metalness, 0.7, 0.08);
+        materialRef.current.clearcoat = THREE.MathUtils.lerp(materialRef.current.clearcoat, 0.5, 0.08);
+        materialRef.current.opacity = THREE.MathUtils.lerp(materialRef.current.opacity, 0.22, 0.08);
       } else {
-        // Obsidian lacquer default
-        materialRef.current.color.lerp(new THREE.Color('#0D0C0B'), 0.1);
-        materialRef.current.roughness = THREE.MathUtils.lerp(materialRef.current.roughness, 0.28, 0.1);
-        materialRef.current.metalness = THREE.MathUtils.lerp(materialRef.current.metalness, 0.15, 0.1);
-        materialRef.current.clearcoat = THREE.MathUtils.lerp(materialRef.current.clearcoat, 1.0, 0.1);
+        // Obsidian ghost default — barely-there wisps
+        materialRef.current.color.lerp(new THREE.Color('#0D0C0B'), 0.08);
+        materialRef.current.roughness = THREE.MathUtils.lerp(materialRef.current.roughness, 0.55, 0.08);
+        materialRef.current.metalness = THREE.MathUtils.lerp(materialRef.current.metalness, 0.08, 0.08);
+        materialRef.current.clearcoat = THREE.MathUtils.lerp(materialRef.current.clearcoat, 0.25, 0.08);
+        materialRef.current.opacity = THREE.MathUtils.lerp(materialRef.current.opacity, 0.18, 0.08);
       }
     }
   });
@@ -200,11 +203,14 @@ export function KineticArray() {
         <meshPhysicalMaterial
           ref={materialRef}
           color="#0D0C0B"
-          roughness={0.28}
-          metalness={0.15}
-          clearcoat={1.0}
-          clearcoatRoughness={0.06}
-          envMapIntensity={1.3}
+          roughness={0.55}
+          metalness={0.08}
+          clearcoat={0.25}
+          clearcoatRoughness={0.12}
+          envMapIntensity={0.6}
+          transparent={true}
+          opacity={0.18}
+          depthWrite={false}
         />
       </instancedMesh>
 
