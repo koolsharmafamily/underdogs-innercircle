@@ -5,6 +5,28 @@ import { useFrame, useThree, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { frame } from '@/state/frame';
 import { useAppStore } from '@/state/store';
+interface CoinTrajectoryNode {
+  pos: [number, number, number];
+  rot: [number, number, number];
+  scale: number;
+}
+
+const COIN_TRAJECTORY: CoinTrajectoryNode[] = [
+  // 0.0: Hero (The Vault - Centered, spinning majestically on edge)
+  { pos: [0, 1.0, 0], rot: [Math.PI / 2, 0, 0], scale: 1.05 },
+  // 1.0: Manifesto (The Covenant - Duality 180° Heads to Tails flip, floating right)
+  { pos: [1.3, 0.35, 0.2], rot: [Math.PI / 2 + 0.12, Math.PI, 0.05], scale: 1.1 },
+  // 2.0: Work (The Nights - Resting flat like a champagne coaster)
+  { pos: [1.8, -0.6, 0.5], rot: [0.32, Math.PI * 1.5, -0.04], scale: 1.15 },
+  // 3.0: Capabilities (The Pillars - Floating left architectural crest)
+  { pos: [-1.8, 0.4, 0.3], rot: [Math.PI / 2 - 0.1, Math.PI * 2.0, 0.04], scale: 1.0 },
+  // 4.0: Process (The Passage - Centered portal gatekeeper)
+  { pos: [0, 0.2, -0.4], rot: [Math.PI / 2, Math.PI * 2.5, 0], scale: 0.95 },
+  // 5.0: Proof (The Circle - Floating among verified attendees)
+  { pos: [2.0, 0.15, 0.4], rot: [Math.PI / 2 + 0.1, Math.PI * 3.0, 0.05], scale: 1.0 },
+  // 6.0: Contact (The Mint - Golden Climax Medallion front and center)
+  { pos: [0, 0.35, 0.6], rot: [Math.PI / 2, Math.PI * 4.0, 0], scale: 1.25 },
+];
 
 export function Coin3D() {
   const groupRef = useRef<THREE.Group>(null);
@@ -214,17 +236,30 @@ export function Coin3D() {
     const targetTiltX = Math.max(-0.25, Math.min(0.25, normY * 0.22));
     const targetTiltY = Math.max(-0.35, Math.min(0.35, normX * 0.3));
 
-    // Position & rotation targets based on story progress
-    let targetX = 0;
-    let targetY = 0;
-    let targetZ = 0;
-    let targetRotX = 0;
-    let targetRotY = time * 0.32; // Stately, unhurried majestic spin on edge in Hero
-    let targetRotZ = 0;
-    let targetScale = 1.0;
+    // Continuous flight trajectory with a very slight forward lead multiplier
+    // The coin moves in the exact same pattern as the page, but slightly faster (1.08x lead ratio + velocity momentum)
+    const velocityLead = Math.max(-0.25, Math.min(0.25, frame.vNorm * 0.35));
+    const leadG = Math.max(0, Math.min(COIN_TRAJECTORY.length - 1, G * 1.08 + velocityLead));
+
+    const k = Math.min(Math.floor(leadG), COIN_TRAJECTORY.length - 2);
+    const u = Math.max(0, Math.min(1, leadG - k));
+    // Smooth cubic Hermite ease (3u^2 - 2u^3) ensures seamless C1 continuity
+    const t = u * u * (3 - 2 * u);
+
+    const nodeA = COIN_TRAJECTORY[k];
+    const nodeB = COIN_TRAJECTORY[k + 1];
+
+    let targetX = THREE.MathUtils.lerp(nodeA.pos[0], nodeB.pos[0], t);
+    let targetY = THREE.MathUtils.lerp(nodeA.pos[1], nodeB.pos[1], t);
+    let targetZ = THREE.MathUtils.lerp(nodeA.pos[2], nodeB.pos[2], t);
+
+    let targetRotX = THREE.MathUtils.lerp(nodeA.rot[0], nodeB.rot[0], t) + targetTiltX;
+    let targetRotY = THREE.MathUtils.lerp(nodeA.rot[1], nodeB.rot[1], t) + time * 0.25 + targetTiltY;
+    let targetRotZ = THREE.MathUtils.lerp(nodeA.rot[2], nodeB.rot[2], t);
+
+    let targetScale = THREE.MathUtils.lerp(nodeA.scale, nodeB.scale, t);
 
     if (worldMode === 'case') {
-      // In case study, dock to top right as a luxury seal
       targetX = 3.2;
       targetY = 2.4;
       targetZ = -1.5;
@@ -232,71 +267,12 @@ export function Coin3D() {
       targetRotX = 0.3;
       targetRotY = time * 0.15;
     } else if (overlay === 'concierge') {
-      // During Goldie chat: docks bottom right and faces user
       targetX = 2.4;
       targetY = -1.6;
       targetZ = 0.8;
       targetScale = 0.65;
       targetRotX = 0.2;
-      targetRotY = Math.sin(time * 1.5) * 0.1; // Gentle speaking tilt
-    } else if (G < 0.8) {
-      // S01 Hero: Center stage, spinning smoothly on edge in black satin
-      targetX = 0;
-      targetY = 1.0;
-      targetZ = 0;
-      targetScale = 1.05;
-      targetRotX = Math.PI / 2 + targetTiltX;
-      targetRotY = time * 0.35 + targetTiltY;
-    } else if (G < 1.8) {
-      // S02 Heads or Tails: Flips slowly from heads to tails
-      const u = (G - 0.8) / 1.0;
-      targetX = -1.2 + u * 2.4;
-      targetY = 0.2;
-      targetZ = 0.2;
-      targetScale = 1.1;
-      targetRotX = Math.PI / 2 + Math.sin(u * Math.PI) * 0.4;
-      targetRotY = time * 0.18 + u * Math.PI; // Flip 180 deg
-    } else if (G < 2.8) {
-      // S03 The Drop: Lands flat like a coaster for the champagne flute
-      const u = (G - 1.8) / 1.0;
-      targetX = 1.6;
-      targetY = -1.2;
-      targetZ = 0.5;
-      targetScale = 1.15;
-      targetRotX = THREE.MathUtils.lerp(Math.PI / 2, 0.25, u); // Laying flat
-      targetRotY = time * 0.12;
-    } else if (G < 3.8) {
-      // S04 Capabilities: Hovering central icon
-      targetX = -1.8;
-      targetY = 0.3;
-      targetZ = 0.3;
-      targetScale = 1.0;
-      targetRotX = Math.PI / 2 + targetTiltX;
-      targetRotY = time * 0.2;
-    } else if (G < 4.8) {
-      // S05 Process: Gateway alignment
-      targetX = 0;
-      targetY = 0.2;
-      targetZ = -0.5;
-      targetScale = 0.95;
-      targetRotX = Math.PI / 2;
-      targetRotY = time * 0.22;
-    } else if (G < 5.8) {
-      // S06 Proof: Floating among members
-      targetX = 2.0;
-      targetY = 0.1;
-      targetZ = 0.4;
-      targetScale = 1.0;
-      targetRotX = Math.PI / 2 + targetTiltX;
-      targetRotY = time * 0.16;
-    } else {
-      // S07 Contact / Mint: The Golden Climax — large central medallion
-      targetX = 0;
-      targetY = 0.25;
-      targetZ = 0.6;
-      targetScale = 1.25;
-      targetRotX = Math.PI / 2 + targetTiltX;
-      targetRotY = time * 0.2 + targetTiltY;
+      targetRotY = Math.sin(time * 1.5) * 0.1;
     }
 
     // Heavy luxury damping (feels like solid physical 24k gold coin with inertia)
