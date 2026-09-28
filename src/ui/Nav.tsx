@@ -48,9 +48,7 @@ export function Nav() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 px-6 md:px-12 py-6 flex items-center justify-between transition-colors duration-500 pointer-events-auto ${
-        isLightScene ? 'text-[#141210]' : 'text-[#ece1cf]'
-      }`}
+      className="fixed top-0 left-0 right-0 z-40 px-6 md:px-12 py-6 flex items-center justify-between transition-colors duration-500 pointer-events-auto text-[#ece1cf]"
     >
       {/* Brand Wordmark / Emblem (Click = Back to Top or Home) */}
       <button
@@ -86,27 +84,11 @@ export function Nav() {
         </button>
 
         <button
-          onClick={() => openOverlay('concierge')}
-          className="hover:text-[#cbb074] transition-colors flex items-center gap-1.5 cursor-pointer text-[#cbb074]"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#e32605] animate-pulse" />
-          Goldie
-        </button>
-
-        <button
           onClick={toggleTheme}
           className="hover:text-[#cbb074] transition-colors cursor-pointer hidden md:inline"
           title="Switch Theme: Vault Black / Aegean Island"
         >
           {theme === 'vault' ? 'Aegean' : 'Vault'}
-        </button>
-
-        <button
-          onClick={toggleMotion}
-          className="hover:text-[#cbb074] transition-colors cursor-pointer hidden lg:inline opacity-70"
-          title="Toggle motion"
-        >
-          Motion: {motionEnabled ? 'On' : 'Off'}
         </button>
 
         <SoundToggle className="hidden md:inline-flex opacity-80" />

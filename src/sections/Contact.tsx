@@ -28,27 +28,20 @@ export function Contact() {
     }
   };
 
-  const currentScene = useAppStore((s) => s.currentScene);
-  const isActive = currentScene === 'contact';
-
   return (
     <section
       id="contact"
       data-scene="contact"
-      className="relative w-full min-h-[140vh] pointer-events-none"
+      className="relative w-full min-h-[90svh] flex flex-col justify-between px-6 md:px-16 py-16 md:py-20 text-[#ece1cf] pointer-events-none"
     >
-      <div
-        className={`sticky top-0 min-h-[100svh] flex flex-col justify-between px-6 md:px-16 py-12 md:py-16 text-[#ece1cf] transition-opacity duration-700 ${
-          isActive ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
+      <div className="max-w-5xl w-full mx-auto flex-1 flex flex-col justify-between gap-12 pointer-events-auto">
         {/* Header */}
-        <div className="max-w-2xl pointer-events-auto space-y-2 border-b border-[#ece1cf]/15 pb-4">
+        <div className="max-w-2xl space-y-2 border-b border-[#ece1cf]/15 pb-4">
           <div className="font-mono text-xs text-[#cbb074] tracking-[0.25em] uppercase flex items-center gap-2">
             <span>(07)</span>
             <span>The Mint</span>
             <span className="w-8 h-[1px] bg-[#cbb074]/40" />
-            <span className="text-[#ece1cf]/60">Initiation & Registry</span>
+            <span className="text-[#ece1cf]/60">Membership & Access</span>
           </div>
 
           <h2 className="font-['Cinzel'] text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#ece1cf]">
@@ -61,7 +54,7 @@ export function Contact() {
         </div>
 
         {/* Central VIP Registry Card */}
-        <div className="max-w-xl w-full mx-auto pointer-events-auto ic-frame-double bg-[#0a0808]/92 backdrop-blur-xl p-8 sm:p-10 space-y-6 shadow-[0_25px_60px_rgba(0,0,0,0.95)] my-auto text-center">
+        <div className="max-w-xl w-full mx-auto ic-frame-double bg-[#0a0808]/92 backdrop-blur-xl p-8 sm:p-10 space-y-6 shadow-[0_25px_60px_rgba(0,0,0,0.95)] my-auto text-center">
           <div className="flex items-center justify-center gap-3">
             <div className="w-10 h-10 rounded-full relative overflow-hidden border border-[#cbb074]/60">
               <Image
@@ -73,7 +66,7 @@ export function Contact() {
             </div>
             <div className="text-left font-mono">
               <span className="block text-[9px] uppercase tracking-[0.25em] text-[#cbb074]">
-                CENTRAL REPOSITORY
+                NAGPUR, INDIA
               </span>
               <span className="font-['Cinzel'] text-xs font-bold text-[#ece1cf]">
                 UNDERDOGS INNERCIRCLE
@@ -85,7 +78,7 @@ export function Contact() {
             Every coin is minted in polished gold and engraved with the holder's identity. A lifelong passport to Nagpur's most intimate private nights.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          <div className="flex items-center justify-center pt-2">
             <button
               onClick={() => {
                 sound?.playCoinMint();
@@ -95,19 +88,9 @@ export function Contact() {
             >
               Request Your Coin ↗
             </button>
-
-            <button
-              onClick={() => {
-                sound?.playTick(1.0);
-                openOverlay('concierge');
-              }}
-              className="w-full sm:w-auto px-6 py-3.5 border border-[#cbb074]/60 text-[#f3e0ac] font-mono text-xs tracking-[0.16em] uppercase hover:bg-[#cbb074]/15 transition-all cursor-pointer rounded-sm"
-            >
-              Consult Goldie ✦
-            </button>
           </div>
 
-          {/* Copy Direct Concierge */}
+          {/* Copy Direct Email */}
           <div className="pt-4 border-t border-[#ece1cf]/15 flex items-center justify-between text-xs font-mono">
             <span className="text-[#ece1cf]/60">Direct Inquiries:</span>
             <button
@@ -120,7 +103,7 @@ export function Contact() {
         </div>
 
         {/* Footer */}
-        <div className="pointer-events-auto flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-[10px] text-[#ece1cf]/50 uppercase tracking-widest border-t border-[#ece1cf]/15 pt-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-[10px] text-[#ece1cf]/50 uppercase tracking-widest border-t border-[#ece1cf]/15 pt-4">
           <div>
             © 2026 UNDERDOGS ENTERTAINMENT · ALL RIGHTS RESERVED
           </div>

@@ -266,13 +266,6 @@ export function Coin3D() {
       targetScale = 0.55;
       targetRotX = 0.3;
       targetRotY = time * 0.15;
-    } else if (overlay === 'concierge') {
-      targetX = 2.4;
-      targetY = -1.6;
-      targetZ = 0.8;
-      targetScale = 0.65;
-      targetRotX = 0.2;
-      targetRotY = Math.sin(time * 1.5) * 0.1;
     }
 
     // Ultra-heavy luxury damping (24k gold coin gliding through honey)

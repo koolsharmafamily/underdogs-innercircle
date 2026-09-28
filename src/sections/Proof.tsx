@@ -6,28 +6,22 @@ import { useAppStore } from '@/state/store';
 import { sound } from '@/audio/sound';
 
 export function Proof() {
-  const currentScene = useAppStore((s) => s.currentScene);
   const openOverlay = useAppStore((s) => s.openOverlay);
-  const isActive = currentScene === 'proof';
 
   return (
     <section
       id="proof"
       data-scene="proof"
-      className="relative w-full h-[180vh] -mb-[100svh] pointer-events-none"
+      className="relative w-full py-16 md:py-24 px-6 md:px-16 flex flex-col justify-center text-[#ece1cf] pointer-events-none"
     >
-      <div
-        className={`sticky top-0 h-[100svh] flex flex-col justify-between px-6 md:px-16 py-12 md:py-16 text-[#ece1cf] transition-opacity duration-700 ${
-          isActive ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
+      <div className="max-w-5xl w-full mx-auto space-y-8 pointer-events-auto">
         {/* Header */}
-        <div className="max-w-2xl pointer-events-auto space-y-2 border-b border-[#ece1cf]/15 pb-4">
+        <div className="max-w-2xl space-y-2 border-b border-[#ece1cf]/15 pb-4">
           <div className="font-mono text-xs text-[#cbb074] tracking-[0.25em] uppercase flex items-center gap-2">
             <span>(06)</span>
-            <span>Voices of the Vault</span>
+            <span>The Circle</span>
             <span className="w-8 h-[1px] bg-[#cbb074]/40" />
-            <span className="text-[#ece1cf]/60">Stamped By Coin</span>
+            <span className="text-[#ece1cf]/60">Voices of the Vault</span>
           </div>
 
           <h2 className="font-['Cinzel'] text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#ece1cf]">
@@ -40,7 +34,7 @@ export function Proof() {
         </div>
 
         {/* Quotes & Past Nights Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pointer-events-auto my-auto items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Main Pull Quote with Coin Wax Seal */}
           <div className="lg:col-span-7 ic-frame-double bg-[#0c0a0a]/90 backdrop-blur-xl p-8 space-y-6 shadow-2xl relative">
             <div className="flex items-center gap-4">
@@ -58,7 +52,7 @@ export function Proof() {
               </div>
               <div>
                 <span className="font-mono text-[10px] text-[#cbb074] uppercase tracking-widest block">
-                  VERIFIED MEMBER ATTESTATION
+                  VERIFIED MEMBER
                 </span>
                 <span className="font-['Cinzel'] text-xs font-bold text-[#ece1cf]">
                   NOCTURNE SERIES ARCHIVE
@@ -77,13 +71,10 @@ export function Proof() {
           </div>
 
           {/* Past Cohorts & Nights Archive */}
-          <div className="lg:col-span-5 ic-frame bg-[#141414]/80 backdrop-blur-md p-6 space-y-4">
+          <div className="lg:col-span-5 ic-frame bg-[#141414]/85 backdrop-blur-md p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-[#ece1cf]/10 pb-2">
               <span className="font-mono text-[10px] tracking-[0.25em] text-[#cbb074] uppercase">
                 PAST GATHERINGS (NAGPUR)
-              </span>
-              <span className="font-mono text-[9px] text-[#ece1cf]/50">
-                LOCKED ARCHIVE
               </span>
             </div>
 
@@ -103,12 +94,6 @@ export function Proof() {
               Browse Complete Archive [5] ↗
             </button>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="pointer-events-auto flex justify-between items-center font-mono text-[10px] text-[#ece1cf]/40 uppercase tracking-widest border-t border-[#ece1cf]/15 pt-3">
-          <span>DISCRETION AND COMMUNITY PRESERVED</span>
-          <span>NAGPUR, INDIA</span>
         </div>
       </div>
     </section>

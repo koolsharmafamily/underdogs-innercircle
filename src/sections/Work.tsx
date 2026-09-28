@@ -8,46 +8,59 @@ import { sound } from '@/audio/sound';
 
 export function Work() {
   const activeIndex = useAppStore((s) => s.activeProjectIndex);
+  const setActiveProjectIndex = useAppStore((s) => s.setActiveProjectIndex);
   const openOverlay = useAppStore((s) => s.openOverlay);
-  const currentScene = useAppStore((s) => s.currentScene);
-  const isActive = currentScene === 'work';
   const currentProject = projects[activeIndex] || projects[0];
 
   return (
     <section
       id="work"
       data-scene="work"
-      className="relative w-full h-[440vh] -mb-[100svh] pointer-events-none"
+      className="relative w-full py-16 md:py-24 px-6 md:px-16 flex flex-col justify-center pointer-events-none"
     >
-      <div
-        className={`sticky top-0 h-[100svh] flex flex-col justify-between px-6 md:px-16 py-12 md:py-16 transition-opacity duration-700 ${
-          isActive ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
+      <div className="max-w-5xl w-full mx-auto space-y-8 pointer-events-auto">
         {/* Top Header */}
-        <div className="flex justify-between items-center pointer-events-auto border-b border-[#ece1cf]/15 pb-4">
+        <div className="flex flex-wrap justify-between items-center gap-4 border-b border-[#ece1cf]/15 pb-4">
           <div className="font-mono text-xs text-[#cbb074] tracking-[0.25em] uppercase flex items-center gap-2">
             <span>(03)</span>
             <span>The Nights</span>
             <span className="w-8 h-[1px] bg-[#cbb074]/40" />
-            <span className="text-[#ece1cf]/60">5 Unrepeatable Productions</span>
+            <span className="text-[#ece1cf]/60">Curated Productions</span>
           </div>
 
-          <button
-            onClick={() => {
-              sound?.playTick(1.0);
-              openOverlay('index');
-            }}
-            className="font-mono text-xs text-[#cbb074] hover:text-[#f3e0ac] tracking-widest uppercase border border-[#cbb074]/40 px-3.5 py-1.5 rounded-sm cursor-pointer hover:bg-[#cbb074]/10 transition-colors"
-          >
-            All Nights Archive [5] ↗
-          </button>
+          <div className="flex items-center gap-2">
+            {projects.map((p, idx) => (
+              <button
+                key={p.slug}
+                onClick={() => {
+                  sound?.playTick(1.0);
+                  setActiveProjectIndex(idx);
+                }}
+                className={`font-mono text-xs px-2.5 py-1 rounded-sm border transition-all cursor-pointer ${
+                  activeIndex === idx
+                    ? 'bg-[#cbb074] text-[#050505] border-[#cbb074] font-bold'
+                    : 'bg-[#0a0808]/80 text-[#ece1cf]/70 border-[#cbb074]/30 hover:border-[#cbb074]'
+                }`}
+              >
+                0{idx + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => {
+                sound?.playTick(1.0);
+                openOverlay('index');
+              }}
+              className="ml-2 font-mono text-xs text-[#cbb074] hover:text-[#f3e0ac] tracking-widest uppercase border border-[#cbb074]/40 px-3.5 py-1 rounded-sm cursor-pointer hover:bg-[#cbb074]/10 transition-colors"
+            >
+              Archive [5] ↗
+            </button>
+          </div>
         </div>
 
         {/* Active Project Luxury Feature Card */}
-        <div className="max-w-4xl w-full mx-auto pointer-events-auto my-auto">
+        <div className="max-w-4xl w-full mx-auto">
           <div className="ic-frame-double bg-[#0c0a0a]/90 backdrop-blur-xl p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.9)] grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-            {/* Visual Cover Preview with Louver Shears */}
+            {/* Visual Cover Preview */}
             <div className="md:col-span-5 relative aspect-[4/5] w-full rounded-sm overflow-hidden border border-[#cbb074]/40 shadow-xl group">
               <Image
                 src={currentProject.cover.src}
@@ -112,12 +125,6 @@ export function Work() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Footer Hint */}
-        <div className="pointer-events-auto flex justify-between items-center font-mono text-[10px] text-[#ece1cf]/50 uppercase tracking-widest border-t border-[#ece1cf]/15 pt-3">
-          <span>FLIP ADDRESSING: 5 NOCTURNES IN CANONICAL ROTATION</span>
-          <span>SCROLL OR USE ARROW KEYS TO FLIP</span>
         </div>
       </div>
     </section>

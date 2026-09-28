@@ -47,22 +47,18 @@ export function Director() {
     frame.acts.b = actNext;
     frame.acts.t = frame.story.T;
 
-    // Discrete scene report to React store
-    if (curScene.id !== lastReportedScene.current) {
-      lastReportedScene.current = curScene.id;
-      setCurrentScene(curScene.id);
+    // Discrete scene report to React store (uses G_raw so right-hand section indicator updates with zero lag)
+    const rawIdx = Math.max(0, Math.min(scenes.length - 1, Math.floor(frame.story.G_raw + 0.15)));
+    const activeUiScene = scenes[rawIdx] || curScene;
+    if (activeUiScene.id !== lastReportedScene.current) {
+      lastReportedScene.current = activeUiScene.id;
+      setCurrentScene(activeUiScene.id);
       if (typeof window !== 'undefined') {
         import('@/audio/sound').then(({ sound }) => {
           sound?.setAct(actCur);
           sound?.playTick(1.2);
         });
       }
-    }
-
-    // Update active project index in Work scene
-    if (curScene.id === 'work') {
-      const projIndex = Math.min(4, Math.floor(local * 5));
-      setActiveProjectIndex(projIndex);
     }
   });
 
