@@ -1,40 +1,109 @@
-// Web Audio API procedural sound engine for Underdogs Innercircle
-// Part 10 / 14 / 15.8: Ambient room bed, slat flip ticks, and Keystone mint chime.
+// Custom Audio Engine for Underdogs Innercircle
+// Plays the 3 official Underdogs Innercircle tracks (Vault, After Dark, Innercircle)
+// plus subtle tactile ticks and gold coin mint chimes.
+
+export interface AudioTrack {
+  id: 'vault' | 'after-dark' | 'innercircle';
+  title: string;
+  src: string;
+}
+
+export const AUDIO_TRACKS: AudioTrack[] = [
+  {
+    id: 'vault',
+    title: 'Vault',
+    src: '/audio/vault.mp3',
+  },
+  {
+    id: 'after-dark',
+    title: 'After Dark',
+    src: '/audio/after-dark.mp3',
+  },
+  {
+    id: 'innercircle',
+    title: 'Innercircle',
+    src: '/audio/innercircle.mp3',
+  },
+];
 
 class SoundEngine {
   private ctx: AudioContext | null = null;
   private isMuted: boolean = true;
-  private ambientGain: GainNode | null = null;
-  private oscSub: OscillatorNode | null = null;
-  private oscDrone: OscillatorNode | null = null;
-  private droneFilter: BiquadFilterNode | null = null;
-  private isInitialized: boolean = false;
+  private audioEl: HTMLAudioElement | null = null;
+  private currentTrackIndex: number = 0;
+  private listeners: Set<(trackIndex: number, isPlaying: boolean) => void> = new Set();
 
   private initContext() {
     if (this.ctx) return;
     try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       this.ctx = new AudioCtx();
     } catch {
       // AudioContext not supported
     }
   }
 
+  private ensureAudioElement(): HTMLAudioElement | null {
+    if (typeof window === 'undefined') return null;
+    if (!this.audioEl) {
+      const audio = new Audio(AUDIO_TRACKS[this.currentTrackIndex].src);
+      audio.preload = 'auto';
+      audio.volume = 0.65;
+      audio.loop = false;
+
+      // Automatically advance to next track when current track ends
+      audio.addEventListener('ended', () => {
+        this.nextTrack();
+      });
+
+      this.audioEl = audio;
+    }
+    return this.audioEl;
+  }
+
+  public subscribe(fn: (trackIndex: number, isPlaying: boolean) => void) {
+    this.listeners.add(fn);
+    return () => {
+      this.listeners.delete(fn);
+    };
+  }
+
+  private notify() {
+    const playing = !this.isMuted;
+    this.listeners.forEach((fn) => fn(this.currentTrackIndex, playing));
+  }
+
+  public getTrackIndex(): number {
+    return this.currentTrackIndex;
+  }
+
+  public getCurrentTrack(): AudioTrack {
+    return AUDIO_TRACKS[this.currentTrackIndex] || AUDIO_TRACKS[0];
+  }
+
   public enable() {
     this.initContext();
-    if (!this.ctx) return;
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
     }
     this.isMuted = false;
-    this.startAmbient();
+
+    const audio = this.ensureAudioElement();
+    if (audio) {
+      audio.volume = 0.65;
+      audio.play().catch(() => {});
+    }
+    this.notify();
   }
 
   public disable() {
     this.isMuted = true;
-    if (this.ambientGain && this.ctx) {
-      this.ambientGain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.5);
+    if (this.audioEl) {
+      this.audioEl.pause();
     }
+    this.notify();
   }
 
   public toggle(enabled: boolean) {
@@ -45,76 +114,40 @@ class SoundEngine {
     }
   }
 
-  private startAmbient() {
-    if (!this.ctx || this.isMuted || this.isInitialized) {
-      if (this.ambientGain && this.ctx && !this.isMuted) {
-        this.ambientGain.gain.setTargetAtTime(0.08, this.ctx.currentTime, 1.2);
+  public setTrack(index: number) {
+    const nextIdx = ((index % AUDIO_TRACKS.length) + AUDIO_TRACKS.length) % AUDIO_TRACKS.length;
+    this.currentTrackIndex = nextIdx;
+    const audio = this.ensureAudioElement();
+    if (audio) {
+      audio.src = AUDIO_TRACKS[nextIdx].src;
+      audio.currentTime = 0;
+      if (!this.isMuted) {
+        audio.play().catch(() => {});
       }
-      return;
     }
-
-    try {
-      const now = this.ctx.currentTime;
-      this.ambientGain = this.ctx.createGain();
-      this.ambientGain.gain.setValueAtTime(0.001, now);
-      this.ambientGain.gain.exponentialRampToValueAtTime(0.08, now + 2.0);
-      this.ambientGain.connect(this.ctx.destination);
-
-      // Lowpass filter for room tone
-      this.droneFilter = this.ctx.createBiquadFilter();
-      this.droneFilter.type = 'lowpass';
-      this.droneFilter.frequency.setValueAtTime(140, now);
-      this.droneFilter.connect(this.ambientGain);
-
-      // Deep sub drone (55Hz - A1)
-      this.oscSub = this.ctx.createOscillator();
-      this.oscSub.type = 'sine';
-      this.oscSub.frequency.setValueAtTime(55, now);
-      this.oscSub.connect(this.droneFilter);
-      this.oscSub.start();
-
-      // Atmospheric harmonic drone (110Hz - A2, slightly detuned)
-      this.oscDrone = this.ctx.createOscillator();
-      this.oscDrone.type = 'triangle';
-      this.oscDrone.frequency.setValueAtTime(110.4, now);
-      
-      const droneGain = this.ctx.createGain();
-      droneGain.gain.setValueAtTime(0.4, now);
-      this.oscDrone.connect(droneGain);
-      droneGain.connect(this.droneFilter);
-      this.oscDrone.start();
-
-      this.isInitialized = true;
-    } catch {
-      // Audio start failure
-    }
+    this.notify();
   }
 
-  // Adjust drone based on Act (e.g. White Room elevates pitch & filter)
-  public setAct(act: string) {
-    if (!this.ctx || !this.droneFilter || !this.oscSub || this.isMuted) return;
-    const now = this.ctx.currentTime;
-    if (act === 'whiteRoom') {
-      this.droneFilter.frequency.setTargetAtTime(320, now, 1.0);
-      this.oscSub.frequency.setTargetAtTime(65.4, now, 1.0); // C2
-    } else {
-      this.droneFilter.frequency.setTargetAtTime(140, now, 1.0);
-      this.oscSub.frequency.setTargetAtTime(55.0, now, 1.0); // A1
-    }
+  public nextTrack() {
+    this.setTrack(this.currentTrackIndex + 1);
   }
 
-  // Slat flip click: physically modeled mechanical impulse
+  public setAct(_act: string) {
+    // Maintained for Director compatibility
+  }
+
+  // Subtle tactile impulse on UI interactions
   public playTick(velocityFactor = 1.0) {
-    if (this.isMuted || !this.ctx) return;
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
     try {
       const now = this.ctx.currentTime;
-      // High-pass filtered noise/sine impulse
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       const filter = this.ctx.createBiquadFilter();
 
       filter.type = 'bandpass';
-      // Pitch variation based on velocity
       filter.frequency.setValueAtTime(1800 + Math.random() * 400, now);
       filter.Q.setValueAtTime(4.0, now);
 
@@ -122,7 +155,7 @@ class SoundEngine {
       osc.frequency.setValueAtTime(320 + Math.random() * 80, now);
       osc.frequency.exponentialRampToValueAtTime(80, now + 0.04);
 
-      const amp = Math.min(0.12, 0.04 * velocityFactor);
+      const amp = Math.min(0.08, 0.03 * velocityFactor);
       gain.gain.setValueAtTime(amp, now);
       gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
 
@@ -137,12 +170,14 @@ class SoundEngine {
     }
   }
 
-  // Keystone / Coin mint chime (pure crystalline ring)
+  // Gold Coin mint chime
   public playCoinMint() {
-    if (this.isMuted || !this.ctx) return;
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
     try {
       const now = this.ctx.currentTime;
-      const freqs = [880, 1320, 1760, 2640]; // Pure harmonics
+      const freqs = [880, 1320, 1760, 2640];
       freqs.forEach((f, idx) => {
         if (!this.ctx) return;
         const osc = this.ctx.createOscillator();
@@ -151,7 +186,7 @@ class SoundEngine {
         osc.frequency.setValueAtTime(f, now);
 
         const decay = 0.8 + idx * 0.3;
-        gain.gain.setValueAtTime(0.05 / (idx + 1), now);
+        gain.gain.setValueAtTime(0.04 / (idx + 1), now);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + decay);
 
         osc.connect(gain);
@@ -166,4 +201,5 @@ class SoundEngine {
   }
 }
 
-export const sound = typeof window !== 'undefined' ? new SoundEngine() : (null as unknown as SoundEngine);
+export const sound =
+  typeof window !== 'undefined' ? new SoundEngine() : (null as unknown as SoundEngine);

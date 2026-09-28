@@ -62,7 +62,7 @@ export function Nav() {
           The Nights
         </button>
 
-        <SoundToggle className="hidden md:inline-flex opacity-80" />
+        <SoundToggle className="inline-flex" />
 
         <button
           onClick={() => openOverlay('menu')}
