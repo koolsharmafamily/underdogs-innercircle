@@ -41,17 +41,17 @@ export function CameraRig() {
 
     // Parallax factor (Part 5.6: 0 in Loader, 0.5 in Work, 1.0 elsewhere)
     const parallaxMul = reducedMotion ? 0 : sceneId === 'work' ? 0.5 : 1.0;
-    const parallaxX = (frame.pointer.dampedX / window.innerWidth - 0.5) * 0.5 * parallaxMul;
-    const parallaxY = -(frame.pointer.dampedY / window.innerHeight - 0.5) * 0.3 * parallaxMul;
+    const parallaxX = (frame.pointer.dampedX / window.innerWidth - 0.5) * 0.35 * parallaxMul;
+    const parallaxY = -(frame.pointer.dampedY / window.innerHeight - 0.5) * 0.2 * parallaxMul;
 
-    // Velocity FOV (Manifesto and Passage: Part 5.6)
+    // Velocity FOV (gentle breathing — subtle zoom on fast scroll)
     const velocityFov =
       (sceneId === 'manifesto' || sceneId === 'process') && !reducedMotion
-        ? Math.min(6, Math.abs(frame.vNorm) * 4)
+        ? Math.min(3, Math.abs(frame.vNorm) * 1.5)
         : 0;
 
-    // Smoothly damp camera position & lookAt
-    const dampSpeed = 1 - Math.exp(-6 * dt);
+    // Cinematic dolly damping — ultra-smooth float
+    const dampSpeed = 1 - Math.exp(-2.5 * dt);
     const targetX = shot.pos.x + parallaxX;
     const targetY = shot.pos.y + parallaxY;
     const targetZ = shot.pos.z;

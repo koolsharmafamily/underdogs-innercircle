@@ -236,10 +236,10 @@ export function Coin3D() {
     const targetTiltX = Math.max(-0.25, Math.min(0.25, normY * 0.22));
     const targetTiltY = Math.max(-0.35, Math.min(0.35, normX * 0.3));
 
-    // Continuous flight trajectory with a very slight forward lead multiplier
-    // The coin moves in the exact same pattern as the page, but slightly faster (1.08x lead ratio + velocity momentum)
-    const velocityLead = Math.max(-0.25, Math.min(0.25, frame.vNorm * 0.35));
-    const leadG = Math.max(0, Math.min(COIN_TRAJECTORY.length - 1, G * 1.08 + velocityLead));
+    // Continuous flight trajectory with very subtle forward lead
+    // Coin drifts gently ahead of scroll (1.03x lead + soft velocity momentum)
+    const velocityLead = Math.max(-0.08, Math.min(0.08, frame.vNorm * 0.12));
+    const leadG = Math.max(0, Math.min(COIN_TRAJECTORY.length - 1, G * 1.03 + velocityLead));
 
     const k = Math.min(Math.floor(leadG), COIN_TRAJECTORY.length - 2);
     const u = Math.max(0, Math.min(1, leadG - k));
@@ -254,7 +254,7 @@ export function Coin3D() {
     let targetZ = THREE.MathUtils.lerp(nodeA.pos[2], nodeB.pos[2], t);
 
     let targetRotX = THREE.MathUtils.lerp(nodeA.rot[0], nodeB.rot[0], t) + targetTiltX;
-    let targetRotY = THREE.MathUtils.lerp(nodeA.rot[1], nodeB.rot[1], t) + time * 0.25 + targetTiltY;
+    let targetRotY = THREE.MathUtils.lerp(nodeA.rot[1], nodeB.rot[1], t) + time * 0.10 + targetTiltY;
     let targetRotZ = THREE.MathUtils.lerp(nodeA.rot[2], nodeB.rot[2], t);
 
     let targetScale = THREE.MathUtils.lerp(nodeA.scale, nodeB.scale, t);
@@ -275,17 +275,17 @@ export function Coin3D() {
       targetRotY = Math.sin(time * 1.5) * 0.1;
     }
 
-    // Heavy luxury damping (feels like solid physical 24k gold coin with inertia)
-    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, dt * 3.0);
-    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, dt * 3.0);
-    groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, dt * 3.0);
+    // Ultra-heavy luxury damping (24k gold coin gliding through honey)
+    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, dt * 1.5);
+    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, dt * 1.5);
+    groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, dt * 1.5);
 
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, dt * 2.8);
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, dt * 2.8);
-    groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, targetRotZ, dt * 2.8);
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, dt * 1.2);
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, dt * 1.2);
+    groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, targetRotZ, dt * 1.2);
 
     const curScale = groupRef.current.scale.x;
-    const nextScale = THREE.MathUtils.lerp(curScale, targetScale, dt * 3.0);
+    const nextScale = THREE.MathUtils.lerp(curScale, targetScale, dt * 1.5);
     groupRef.current.scale.set(nextScale, nextScale, nextScale);
   });
 

@@ -55,7 +55,7 @@ export function startClock() {
   if (typeof window === 'undefined') return () => {};
 
   const lenis = new Lenis({
-    lerp: 0.09,
+    lerp: 0.045,
     smoothWheel: true,
     syncTouch: false,
     autoRaf: false,
@@ -97,13 +97,13 @@ export function startClock() {
     // Update raw story progress based on active scroll
     updateStoryFromScroll(effectiveScroll);
 
-    // Pointer exponential damping (cushioned, velvety tracking)
-    const pDamp = 1 - Math.exp(-4.5 * dt);
+    // Pointer exponential damping (silky, floating tracking)
+    const pDamp = 1 - Math.exp(-3.0 * dt);
     frame.pointer.dampedX += (frame.pointer.x - frame.pointer.dampedX) * pDamp;
     frame.pointer.dampedY += (frame.pointer.y - frame.pointer.dampedY) * pDamp;
 
-    // Story time damping (snappy response across sections)
-    const sDamp = 1 - Math.exp(-6.0 * dt);
+    // Story time damping (cushioned float — the 3D world drifts into position)
+    const sDamp = 1 - Math.exp(-2.8 * dt);
     frame.story.G += (frame.story.G_raw - frame.story.G) * sDamp;
 
     // 2. Advance 3D engine if canvas is mounted
