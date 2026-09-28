@@ -10,16 +10,7 @@ import { SoundToggle } from './SoundToggle';
 export function Nav() {
   const router = useRouter();
   const pathname = usePathname();
-  const currentScene = useAppStore((s) => s.currentScene);
   const openOverlay = useAppStore((s) => s.openOverlay);
-  const theme = useAppStore((s) => s.theme);
-  const setTheme = useAppStore((s) => s.setTheme);
-  const motionEnabled = useAppStore((s) => s.motionEnabled);
-  const setMotionEnabled = useAppStore((s) => s.setMotionEnabled);
-  const reducedMotion = useAppStore((s) => s.reducedMotion);
-  const setReducedMotion = useAppStore((s) => s.setReducedMotion);
-
-  const isLightScene = currentScene === 'capabilities';
 
   const handleBrandClick = () => {
     if (pathname !== '/') {
@@ -32,18 +23,6 @@ export function Nav() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
-  };
-
-  const toggleTheme = () => {
-    const nextTheme = theme === 'vault' ? 'aegean' : 'vault';
-    setTheme(nextTheme);
-    document.documentElement.setAttribute('data-theme', nextTheme);
-  };
-
-  const toggleMotion = () => {
-    const nextMotion = !motionEnabled;
-    setMotionEnabled(nextMotion);
-    setReducedMotion(!nextMotion);
   };
 
   return (
@@ -81,14 +60,6 @@ export function Nav() {
           className="hover:text-[#cbb074] transition-colors cursor-pointer"
         >
           The Nights
-        </button>
-
-        <button
-          onClick={toggleTheme}
-          className="hover:text-[#cbb074] transition-colors cursor-pointer hidden md:inline"
-          title="Switch Theme: Vault Black / Aegean Island"
-        >
-          {theme === 'vault' ? 'Aegean' : 'Vault'}
         </button>
 
         <SoundToggle className="hidden md:inline-flex opacity-80" />
