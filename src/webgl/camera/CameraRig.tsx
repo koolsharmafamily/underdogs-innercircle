@@ -5,7 +5,7 @@ import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { frame } from '@/state/frame';
 import { useAppStore } from '@/state/store';
-import { sampleCameraPath, CameraShot } from './paths';
+import { sampleCameraTrajectory, CameraShot } from './paths';
 
 export function CameraRig() {
   const { camera } = useThree();
@@ -26,18 +26,18 @@ export function CameraRig() {
 
     const dt = Math.min(delta, 1 / 30);
     const sceneId = frame.story.sceneId || 'hero';
-    const localP = frame.story.local || 0;
 
     // Intro descent handling (S00 Loader)
     if (phase === 'booting' || phase === 'loading' || phase === 'ready') {
-      camera.position.set(0, 3.1, 12);
-      camera.lookAt(0, 3.1, 0);
-      camera.fov = 30;
+      camera.position.set(0, 2.8, 12);
+      camera.lookAt(0, 1.0, 0);
+      camera.fov = 32;
       camera.updateProjectionMatrix();
       return;
     }
 
-    sampleCameraPath(sceneId, localP, shot);
+    // Sample continuous trajectory across entire story G
+    sampleCameraTrajectory(frame.story.G, shot);
 
     // Parallax factor (Part 5.6: 0 in Loader, 0.5 in Work, 1.0 elsewhere)
     const parallaxMul = reducedMotion ? 0 : sceneId === 'work' ? 0.5 : 1.0;

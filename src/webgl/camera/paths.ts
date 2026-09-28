@@ -6,52 +6,39 @@ export interface CameraShot {
   fov: number;
 }
 
-interface CameraWaypoint {
+export interface CameraWaypoint {
   pos: [number, number, number];
   target: [number, number, number];
   fov: number;
 }
 
-// Continuous cinematic dolly trajectory across all 7 scenes
-const CAMERA_WAYPOINTS: Record<string, { start: CameraWaypoint; end: CameraWaypoint }> = {
-  hero: {
-    start: { pos: [0, 2.8, 12.0], target: [0, 1.0, 0], fov: 34 },
-    end: { pos: [0.3, 2.6, 11.8], target: [0.2, 0.9, 0], fov: 34 },
-  },
-  manifesto: {
-    start: { pos: [0.3, 2.6, 11.8], target: [0.2, 0.9, 0], fov: 34 },
-    end: { pos: [0.6, 2.4, 11.6], target: [0.5, 0.8, 0], fov: 34 },
-  },
-  work: {
-    start: { pos: [0.6, 2.4, 11.6], target: [0.5, 0.8, 0], fov: 34 },
-    end: { pos: [0.7, 2.2, 11.5], target: [0.6, 0.6, 0], fov: 33 },
-  },
-  capabilities: {
-    start: { pos: [0.7, 2.2, 11.5], target: [0.6, 0.6, 0], fov: 33 },
-    end: { pos: [-0.6, 2.5, 11.6], target: [-0.5, 0.8, 0], fov: 34 },
-  },
-  process: {
-    start: { pos: [-0.6, 2.5, 11.6], target: [-0.5, 0.8, 0], fov: 34 },
-    end: { pos: [0, 2.3, 11.4], target: [0, 0.7, 0], fov: 34 },
-  },
-  proof: {
-    start: { pos: [0, 2.3, 11.4], target: [0, 0.7, 0], fov: 34 },
-    end: { pos: [0.5, 2.5, 11.6], target: [0.4, 0.8, 0], fov: 34 },
-  },
-  contact: {
-    start: { pos: [0.5, 2.5, 11.6], target: [0.4, 0.8, 0], fov: 34 },
-    end: { pos: [0, 2.6, 11.2], target: [0, 0.9, 0], fov: 34 },
-  },
-};
+// Continuous cinematic dolly nodes across global progress G in [0, 6.0]
+const CAMERA_NODES: CameraWaypoint[] = [
+  // 0.0: Hero (The Vault)
+  { pos: [0, 2.8, 12.0], target: [0, 1.0, 0], fov: 34 },
+  // 1.0: Manifesto (The Covenant)
+  { pos: [0.35, 2.55, 11.8], target: [0.25, 0.9, 0], fov: 34 },
+  // 2.0: Work (The Nights)
+  { pos: [0.65, 2.35, 11.6], target: [0.55, 0.75, 0], fov: 33 },
+  // 3.0: Capabilities (The Pillars)
+  { pos: [-0.65, 2.45, 11.6], target: [-0.55, 0.8, 0], fov: 34 },
+  // 4.0: Process (The Passage)
+  { pos: [0, 2.3, 11.4], target: [0, 0.7, 0], fov: 34 },
+  // 5.0: Proof (The Circle)
+  { pos: [0.55, 2.45, 11.6], target: [0.45, 0.8, 0], fov: 34 },
+  // 6.0: Contact (The Mint)
+  { pos: [0, 2.6, 11.2], target: [0, 0.9, 0], fov: 34 },
+];
 
-export function sampleCameraPath(sceneId: string, progress: number, out: CameraShot) {
-  const p = Math.max(0, Math.min(1, progress));
-  // Smooth cubic ease: 3p^2 - 2p^3
-  const t = p * p * (3 - 2 * p);
+export function sampleCameraTrajectory(G: number, out: CameraShot) {
+  const clampedG = Math.max(0, Math.min(CAMERA_NODES.length - 1, G));
+  const k = Math.min(Math.floor(clampedG), CAMERA_NODES.length - 2);
+  const u = clampedG - k;
+  // Smooth Hermite ease ensures continuous first derivative (no velocity snapping)
+  const t = u * u * (3 - 2 * u);
 
-  const shotDef = CAMERA_WAYPOINTS[sceneId] || CAMERA_WAYPOINTS.hero;
-  const s = shotDef.start;
-  const e = shotDef.end;
+  const s = CAMERA_NODES[k];
+  const e = CAMERA_NODES[k + 1];
 
   out.pos.set(
     THREE.MathUtils.lerp(s.pos[0], e.pos[0], t),
@@ -66,4 +53,19 @@ export function sampleCameraPath(sceneId: string, progress: number, out: CameraS
   );
 
   out.fov = THREE.MathUtils.lerp(s.fov, e.fov, t);
+}
+
+// Backward-compatible wrapper
+export function sampleCameraPath(sceneId: string, progress: number, out: CameraShot) {
+  const sceneIdxMap: Record<string, number> = {
+    hero: 0,
+    manifesto: 1,
+    work: 2,
+    capabilities: 3,
+    process: 4,
+    proof: 5,
+    contact: 6,
+  };
+  const baseIdx = sceneIdxMap[sceneId] ?? 0;
+  sampleCameraTrajectory(baseIdx + progress, out);
 }
