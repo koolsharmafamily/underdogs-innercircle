@@ -24,64 +24,41 @@ export function DomLoader() {
 
   const skipIntro = useCallback(() => {
     clearAllTimers();
-    if (typeof window !== 'undefined') {
-      try {
-        sessionStorage.setItem('underdogs_intro_seen', 'true');
-      } catch (_) {}
-    }
     setCounter(100);
     setProgress(100);
     setPhase('done');
   }, [clearAllTimers, setPhase, setProgress]);
 
-  // Check if user already saw or skipped intro in this session
+  // Automatically progress 0 -> 100 and transition to homepage in 3 seconds
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        if (sessionStorage.getItem('underdogs_intro_seen') === 'true') {
-          setCounter(100);
-          setProgress(100);
-          setPhase('done');
-          return;
-        }
-      } catch (_) {}
-    }
+    const startTime = performance.now();
+    const durationMs = 2500; // Counter reaches 100% at 2.5s, fades out by 3.0s
 
-    if (phase === 'done') return;
-
-    let current = 0;
     intervalRef.current = setInterval(() => {
-      current += Math.floor(Math.random() * 9) + 4;
-      if (current >= 100) {
-        current = 100;
-        if (intervalRef.current) {
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
-        }
-        setCounter(100);
-        setProgress(100);
-        setPhase('ready');
+      const elapsed = performance.now() - startTime;
+      const pct = Math.min(100, Math.floor((elapsed / durationMs) * 100));
+      setCounter(pct);
+      setProgress(pct);
 
-        const t1 = setTimeout(() => setPhase('firstLight'), 200);
-        const t2 = setTimeout(() => setPhase('descent'), 600);
-        const t3 = setTimeout(() => setPhase('handoff'), 1400);
-        const t4 = setTimeout(() => {
-          if (typeof window !== 'undefined') {
-            try {
-              sessionStorage.setItem('underdogs_intro_seen', 'true');
-            } catch (_) {}
-          }
-          setPhase('done');
-        }, 1800);
-
-        timeoutsRef.current.push(t1, t2, t3, t4);
-      } else {
-        setCounter(current);
-        setProgress(current);
+      if (pct >= 100 && intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
-    }, 35);
+    }, 30);
 
-    // Keyboard ESC listener for instant skip
+    // Stage 3D camera & slats and handoff to homepage at exactly 3 seconds
+    const t1 = setTimeout(() => setPhase('firstLight'), 800);
+    const t2 = setTimeout(() => setPhase('descent'), 1600);
+    const t3 = setTimeout(() => setPhase('handoff'), 2500);
+    const t4 = setTimeout(() => {
+      setCounter(100);
+      setProgress(100);
+      setPhase('done');
+    }, 3000);
+
+    timeoutsRef.current.push(t1, t2, t3, t4);
+
+    // Keyboard ESC/Space/Enter listener for instant skip
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
         skipIntro();
@@ -93,7 +70,9 @@ export function DomLoader() {
       clearAllTimers();
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [phase, setPhase, setProgress, skipIntro, clearAllTimers]);
+    // Run once on mount so phase transitions never cancel the 3-second timer
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (phase === 'done') {
     return null;
