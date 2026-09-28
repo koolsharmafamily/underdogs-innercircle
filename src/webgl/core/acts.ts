@@ -35,19 +35,19 @@ export interface ActState {
 
 export const ACTS: Record<string, ActState> = {
   dusk: {
-    keyColor: '#FFB27D',
-    keyIntensity: 3.0,
-    keyAzimuth: -120,
-    keyElevation: 12,
+    keyColor: '#FFF2D6',
+    keyIntensity: 3.2,
+    keyAzimuth: 30,
+    keyElevation: 35,
 
-    rimColor: '#A9C1FF',
-    rimIntensity: 0.6,
-    rimAzimuth: 60,
+    rimColor: '#E3BC95',
+    rimIntensity: 1.2,
+    rimAzimuth: -60,
     rimElevation: 25,
 
-    hemiSky: '#23171c',
-    hemiGround: '#050505',
-    hemiIntensity: 0.2,
+    hemiSky: '#3D2D24',
+    hemiGround: '#14110E',
+    hemiIntensity: 0.55,
 
     spots: {
       intensity: 0,
@@ -73,8 +73,8 @@ export const ACTS: Record<string, ActState> = {
 
   blueHour: {
     keyColor: '#FFD9B8',
-    keyIntensity: 0.8,
-    keyAzimuth: -90,
+    keyIntensity: 1.5,
+    keyAzimuth: 25,
     keyElevation: 30,
 
     rimColor: '#A9C1FF',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAppStore } from '@/state/store';
 
 export function DomLoader() {
@@ -10,44 +10,90 @@ export function DomLoader() {
   const setProgress = useAppStore((s) => s.setProgress);
 
   const [counter, setCounter] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
 
-  // Progressive loader simulation and asset check (Part 13 S00)
+  const clearAllTimers = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    timeoutsRef.current.forEach((t) => clearTimeout(t));
+    timeoutsRef.current = [];
+  }, []);
+
+  const skipIntro = useCallback(() => {
+    clearAllTimers();
+    if (typeof window !== 'undefined') {
+      try {
+        sessionStorage.setItem('underdogs_intro_seen', 'true');
+      } catch (_) {}
+    }
+    setCounter(100);
+    setProgress(100);
+    setPhase('done');
+  }, [clearAllTimers, setPhase, setProgress]);
+
+  // Check if user already saw or skipped intro in this session
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        if (sessionStorage.getItem('underdogs_intro_seen') === 'true') {
+          setCounter(100);
+          setProgress(100);
+          setPhase('done');
+          return;
+        }
+      } catch (_) {}
+    }
+
     if (phase === 'done') return;
 
     let current = 0;
-    const interval = setInterval(() => {
-      current += Math.floor(Math.random() * 8) + 3;
+    intervalRef.current = setInterval(() => {
+      current += Math.floor(Math.random() * 9) + 4;
       if (current >= 100) {
         current = 100;
-        clearInterval(interval);
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
         setCounter(100);
         setProgress(100);
         setPhase('ready');
 
-        // Sequence steps (Part 13 S00):
-        // 0.3s -> firstLight (slats rotate, striped flash)
-        setTimeout(() => setPhase('firstLight'), 300);
-        // 1.0s -> descent (rows rise, tower fills, camera orbits)
-        setTimeout(() => setPhase('descent'), 1000);
-        // 2.2s -> handoff (Hero text in, scroll enabled)
-        setTimeout(() => setPhase('handoff'), 2200);
-        // 2.6s -> done
-        setTimeout(() => setPhase('done'), 2600);
+        const t1 = setTimeout(() => setPhase('firstLight'), 200);
+        const t2 = setTimeout(() => setPhase('descent'), 600);
+        const t3 = setTimeout(() => setPhase('handoff'), 1400);
+        const t4 = setTimeout(() => {
+          if (typeof window !== 'undefined') {
+            try {
+              sessionStorage.setItem('underdogs_intro_seen', 'true');
+            } catch (_) {}
+          }
+          setPhase('done');
+        }, 1800);
+
+        timeoutsRef.current.push(t1, t2, t3, t4);
       } else {
         setCounter(current);
         setProgress(current);
       }
-    }, 45);
+    }, 35);
 
-    return () => clearInterval(interval);
-  }, [phase, setPhase, setProgress]);
+    // Keyboard ESC listener for instant skip
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+        skipIntro();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
 
-  const skipIntro = () => {
-    setCounter(100);
-    setProgress(100);
-    setPhase('done');
-  };
+    return () => {
+      clearAllTimers();
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [phase, setPhase, setProgress, skipIntro, clearAllTimers]);
 
   if (phase === 'done') {
     return null;
@@ -61,24 +107,30 @@ export function DomLoader() {
     <div
       role="status"
       aria-live="polite"
-      className={`fixed inset-0 z-50 bg-[#050505] flex flex-col justify-between p-8 md:p-14 select-none transition-opacity duration-700 pointer-events-auto ${
-        phase === 'handoff' ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      className={`fixed inset-0 z-[100] bg-[#050505] flex flex-col justify-between p-8 md:p-14 select-none transition-opacity duration-500 ${
+        phase === 'handoff' ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
       }`}
     >
-      {/* Skip button for keyboard accessibility */}
-      <div className="flex justify-between items-center">
+      {/* Top Bar: Title & High-Priority Skip Intro Button */}
+      <div className="flex justify-between items-center relative z-20">
         <span className="font-mono text-[10px] tracking-[0.25em] text-[#ece1cf]/40 uppercase">
           INITIATING THE CIRCLE
         </span>
         <button
-          onClick={skipIntro}
-          className="font-mono text-[11px] text-[#cbb074] hover:text-[#f3e0ac] tracking-[0.15em] uppercase border border-[#cbb074]/30 px-3 py-1 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#cbb074] cursor-pointer"
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            skipIntro();
+          }}
+          className="font-mono text-xs text-[#141414] bg-gradient-to-r from-[#b2955e] via-[#f3e0ac] to-[#cbb074] hover:brightness-110 font-bold tracking-[0.2em] uppercase px-4 py-2 rounded-sm shadow-[0_0_20px_rgba(203,176,116,0.35)] cursor-pointer active:scale-95 transition-all"
+          aria-label="Skip Introduction"
         >
           Skip Intro →
         </button>
       </div>
 
-      {/* Centre: 96 fine hairline slats (Part 13 S00) lighting from centre outward */}
+      {/* Centre: 96 fine hairline slats lighting from centre outward */}
       <div className="w-full flex items-center justify-center my-auto">
         <div className="w-[72vw] max-w-[900px] h-24 flex items-center justify-between gap-[2px]">
           {Array.from({ length: lineCount }).map((_, i) => {

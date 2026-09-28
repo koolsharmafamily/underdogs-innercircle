@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getLenis } from '@/motion/clock';
 import { useAppStore } from '@/state/store';
@@ -8,7 +9,17 @@ import { sound } from '@/audio/sound';
 export function Hero() {
   const openOverlay = useAppStore((s) => s.openOverlay);
   const currentScene = useAppStore((s) => s.currentScene);
-  const isActive = currentScene === 'hero';
+  const [isNearTop, setIsNearTop] = useState(true);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setIsNearTop(window.scrollY < 350);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const isActive = currentScene === 'hero' || isNearTop;
 
   const scrollDown = () => {
     const el = document.getElementById('manifesto');

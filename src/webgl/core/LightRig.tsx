@@ -116,6 +116,11 @@ export function LightRig() {
         shadow-camera-bottom={-2}
       />
       <directionalLight ref={rimLightRef} />
+      <directionalLight
+        position={[2.0, 4.0, 9.0]}
+        intensity={1.8}
+        color="#FFECC7"
+      />
       <hemisphereLight ref={hemiLightRef} />
       <spotLight ref={spotRefs[0]} decay={2} />
       <spotLight ref={spotRefs[1]} decay={2} />

@@ -8,88 +8,75 @@ export function buildMonolith(n: number, ctx: LayoutContext): FormationData {
   const role = new Uint8Array(n);
 
   const isPortrait = ctx.aspect < 1 || ctx.tier === 'T1';
-  const width = isPortrait ? 1.8 : 2.4;
-  const height = 6.0;
-  const slatsPerSide = isPortrait ? 3 : 4;
-  const slatsPerLevel = slatsPerSide * 4;
-  const numLevels = Math.floor(n / slatsPerLevel);
-  const pitch = height / numLevels;
-  const baseY = 0.4;
+  // Vault Colonnade: Symmetrical curved architectural wings that frame the central Gold Medallion
+  // Leaving a wide central aperture (x in [-3.5, 3.5]) completely open
+  const colonnadeRadius = isPortrait ? 5.8 : 7.2;
+  const numLevels = Math.min(18, Math.floor(n / 40));
+  const slatsPerLevel = Math.floor(n / numLevels);
+  const baseY = 0.2;
+  const height = 6.2;
+  const pitchY = height / numLevels;
 
-  const halfW = width / 2;
-  const sidePitch = width / slatsPerSide;
-
-  const louverTilt = (25 * Math.PI) / 180;
   const tempQ = new THREE.Quaternion();
   const euler = new THREE.Euler();
 
-  // Temporary list to arrange canonical slot order (Slot 0 is Keystone)
   const slots: {
     pos: [number, number, number];
     rot: [number, number, number, number];
-    level: number;
-    side: number;
-    indexInSide: number;
+    isKeystone?: boolean;
   }[] = [];
 
+  // Wings: Left wing (angle 120° to 220°), Right wing (angle -40° to 60°)
+  // Plus subtle deep background arc (z = -6.0)
   for (let lvl = 0; lvl < numLevels; lvl++) {
-    const y = baseY + lvl * pitch;
+    const y = baseY + lvl * pitchY;
+    const halfSlats = Math.floor(slatsPerLevel / 2);
 
-    for (let side = 0; side < 4; side++) {
-      // 0: front (+Z), 1: right (+X), 2: back (-Z), 3: left (-X)
-      for (let s = 0; s < slatsPerSide; s++) {
-        const offset = -halfW + sidePitch * (s + 0.5);
-        let px = 0, py = y, pz = 0;
-        let yaw = 0;
+    // Left Wing
+    for (let s = 0; s < halfSlats; s++) {
+      const u = s / Math.max(1, halfSlats - 1);
+      // Angle from 125 deg to 215 deg
+      const angle = (125 + u * 90) * (Math.PI / 180);
+      const px = Math.cos(angle) * colonnadeRadius;
+      const pz = Math.sin(angle) * colonnadeRadius * 0.7 - 1.5;
 
-        if (side === 0) {
-          // Front side (facing +Z)
-          px = offset;
-          pz = halfW;
-          yaw = 0;
-        } else if (side === 1) {
-          // Right side (facing +X)
-          px = halfW;
-          pz = -offset;
-          yaw = -Math.PI / 2;
-        } else if (side === 2) {
-          // Back side (facing -Z)
-          px = -offset;
-          pz = -halfW;
-          yaw = Math.PI;
-        } else {
-          // Left side (facing -X)
-          px = -halfW;
-          pz = offset;
-          yaw = Math.PI / 2;
-        }
+      // Louver tilt facing inward toward center coin at (0, 1, 0)
+      const lookYaw = Math.atan2(-px, -pz);
+      euler.set(0.12, lookYaw, 0.05, 'YXZ');
+      tempQ.setFromEuler(euler);
 
-        // Louver tilt around local X, then yaw around Y
-        euler.set(louverTilt, yaw, 0, 'YXZ');
-        tempQ.setFromEuler(euler);
+      slots.push({
+        pos: [px, y, pz],
+        rot: [tempQ.x, tempQ.y, tempQ.z, tempQ.w],
+      });
+    }
 
-        slots.push({
-          pos: [px, py, pz],
-          rot: [tempQ.x, tempQ.y, tempQ.z, tempQ.w],
-          level: lvl,
-          side,
-          indexInSide: s,
-        });
-      }
+    // Right Wing
+    for (let s = 0; s < halfSlats; s++) {
+      const u = s / Math.max(1, halfSlats - 1);
+      // Angle from -35 deg to 55 deg
+      const angle = (-35 + u * 90) * (Math.PI / 180);
+      const px = Math.cos(angle) * colonnadeRadius;
+      const pz = Math.sin(angle) * colonnadeRadius * 0.7 - 1.5;
+
+      const lookYaw = Math.atan2(-px, -pz);
+      euler.set(0.12, lookYaw, -0.05, 'YXZ');
+      tempQ.setFromEuler(euler);
+
+      const isKeystone = lvl === Math.floor(numLevels * 0.75) && s === Math.floor(halfSlats / 2);
+
+      slots.push({
+        pos: [px, y, pz],
+        rot: [tempQ.x, tempQ.y, tempQ.z, tempQ.w],
+        isKeystone,
+      });
     }
   }
 
-  // Find slot for Keystone: golden section of front face (level ≈ 0.618 * numLevels)
-  const keystoneLevel = Math.floor(numLevels * 0.618);
-  const keystoneSide = 0; // Front camera-facing
-  const keystoneIdx = 1;
-
-  let keystoneIndex = slots.findIndex(
-    (s) => s.level === keystoneLevel && s.side === keystoneSide && s.indexInSide === keystoneIdx
-  );
+  // Find slot for Keystone: slot 0 sits on high right wing colonnade
+  let keystoneIndex = slots.findIndex((s) => s.isKeystone);
   if (keystoneIndex === -1) keystoneIndex = 0;
 
-  // Put Keystone at index 0
   const keystoneSlot = slots.splice(keystoneIndex, 1)[0];
   slots.unshift(keystoneSlot);
 
@@ -109,9 +96,9 @@ export function buildMonolith(n: number, ctx: LayoutContext): FormationData {
       scale[i * 3 + 2] = 1;
       role[i] = 0;
     } else {
-      // Park any excess
+      // Park any excess far above
       position[i * 3] = 0;
-      position[i * 3 + 1] = 14;
+      position[i * 3 + 1] = 20;
       position[i * 3 + 2] = 0;
       rotation[i * 4 + 3] = 1;
       scale[i * 3] = 0;

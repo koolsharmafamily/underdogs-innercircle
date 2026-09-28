@@ -52,7 +52,6 @@ export function Experience() {
 
         <group>
           <Floor />
-          <Wordmark3D />
           <Dust />
           <KineticArray />
           <Coin3D />

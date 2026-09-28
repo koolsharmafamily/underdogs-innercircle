@@ -170,30 +170,31 @@ export function Coin3D() {
   const materials = useMemo(() => {
     const sideMat = new THREE.MeshPhysicalMaterial({
       color: '#f3e0ac',
-      metalness: 0.98,
-      roughness: 0.18,
-      clearcoat: 0.6,
+      metalness: 0.85,
+      roughness: 0.2,
+      clearcoat: 0.7,
       clearcoatRoughness: 0.1,
       bumpMap: edgeBumpTexture || undefined,
-      bumpScale: 0.05,
+      bumpScale: 0.06,
     });
 
     const headsMat = new THREE.MeshPhysicalMaterial({
       map: headsTexture,
-      roughness: 0.18,
-      metalness: 0.88,
+      roughness: 0.2,
+      metalness: 0.65,
       clearcoat: 0.95,
-      clearcoatRoughness: 0.04,
-      reflectivity: 1.0,
-      envMapIntensity: 1.8,
+      clearcoatRoughness: 0.05,
+      reflectivity: 0.9,
+      envMapIntensity: 1.5,
     });
 
     const tailsMat = new THREE.MeshPhysicalMaterial({
       map: tailsTexture,
       roughness: 0.22,
-      metalness: 0.92,
-      clearcoat: 0.8,
-      clearcoatRoughness: 0.08,
+      metalness: 0.65,
+      clearcoat: 0.85,
+      clearcoatRoughness: 0.06,
+      reflectivity: 0.9,
       envMapIntensity: 1.5,
     });
 
@@ -239,7 +240,7 @@ export function Coin3D() {
     } else if (G < 0.8) {
       // S01 Hero: Center stage, spinning on edge in black satin
       targetX = 0;
-      targetY = 0.1;
+      targetY = 1.0;
       targetZ = 0;
       targetScale = 1.05;
       targetRotX = Math.PI / 2 + targetTiltX; // Standing on edge
