@@ -66,9 +66,9 @@ export function Dust() {
       </bufferGeometry>
       <pointsMaterial
         size={0.035}
-        color="#F3E0AC"
+        color="#C8B08A"
         transparent
-        opacity={0.35}
+        opacity={0.28}
         blending={THREE.AdditiveBlending}
         depthWrite={false}
       />

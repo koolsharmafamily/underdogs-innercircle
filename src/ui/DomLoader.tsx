@@ -86,13 +86,13 @@ export function DomLoader() {
     <div
       role="status"
       aria-live="polite"
-      className={`fixed inset-0 z-[100] bg-[#050505] flex flex-col justify-between p-8 md:p-14 select-none transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[100] bg-[#080706] flex flex-col justify-between p-8 md:p-14 select-none transition-opacity duration-500 ${
         phase === 'handoff' ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
       }`}
     >
       {/* Top Bar: Title & High-Priority Skip Intro Button */}
       <div className="flex justify-between items-center relative z-20">
-        <span className="font-mono text-[10px] tracking-[0.25em] text-[#ece1cf]/40 uppercase">
+        <span className="font-mono text-[9px] tracking-[0.28em] text-[#8E7B62] uppercase">
           INITIATING THE CIRCLE
         </span>
         <button
@@ -102,7 +102,7 @@ export function DomLoader() {
             e.stopPropagation();
             skipIntro();
           }}
-          className="font-mono text-xs text-[#141414] bg-gradient-to-r from-[#b2955e] via-[#f3e0ac] to-[#cbb074] hover:brightness-110 font-bold tracking-[0.2em] uppercase px-4 py-2 rounded-sm shadow-[0_0_20px_rgba(203,176,116,0.35)] cursor-pointer active:scale-95 transition-all"
+          className="font-mono text-[10px] text-[#080706] bg-[#C8B08A] hover:bg-[#EDE2D0] font-semibold tracking-[0.22em] uppercase px-4 py-2 rounded-[1px] shadow-lg cursor-pointer transition-colors"
           aria-label="Skip Introduction"
         >
           Skip Intro →
@@ -122,10 +122,10 @@ export function DomLoader() {
                 key={i}
                 className={`w-[1px] block transition-all duration-300 ${
                   isKeystone
-                    ? 'h-24 bg-[#ece1cf] shadow-[0_0_12px_rgba(236,225,207,0.8)] scale-y-110'
+                    ? 'h-24 bg-[#EDE2D0] shadow-[0_0_12px_rgba(237,226,208,0.7)] scale-y-110'
                     : isLit
-                    ? 'h-16 bg-[#cbb074] opacity-80'
-                    : 'h-10 bg-[#ece1cf]/15'
+                    ? 'h-16 bg-[#C8B08A] opacity-90'
+                    : 'h-10 bg-[#8E7B62]/20'
                 }`}
               />
             );
@@ -134,15 +134,15 @@ export function DomLoader() {
       </div>
 
       {/* Bottom Row: Tabular Counter & Tracked Brand Letters */}
-      <div className="flex justify-between items-end border-t border-[#ece1cf]/10 pt-4">
+      <div className="flex justify-between items-end border-t border-[#C8B08A]/10 pt-4">
         {/* Mono tabular counter */}
-        <div className="font-mono text-xs md:text-sm text-[#cbb074] tracking-[0.2em]">
+        <div className="font-mono text-xs md:text-sm text-[#C8B08A] tracking-[0.2em]">
           <span>{String(counter).padStart(3, '0')}</span>
-          <span className="text-[#ece1cf]/30 ml-1">/ 100</span>
+          <span className="text-[#8E7B62] ml-1">/ 100</span>
         </div>
 
         {/* Revealed Letters */}
-        <div className="font-['Cinzel'] text-xs md:text-sm tracking-[0.3em] font-semibold text-[#ece1cf]">
+        <div className="font-['Cinzel'] text-xs md:text-sm tracking-[0.32em] font-light text-[#EDE2D0]">
           {'UNDERDOGS INNERCIRCLE'
             .split('')
             .slice(0, Math.ceil((counter / 100) * 22))

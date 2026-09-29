@@ -2,43 +2,26 @@
 
 @layer base {
   :root {
-    /* Blacks — the vault */
-    --ic-void: #050505;
-    --ic-onyx: #141414;
-    --ic-satin-900: #23171c;
-    --ic-satin-700: #342528;
-    --ic-satin-500: #503731;
-    --ic-vein: #beb8b2;
+    /* Quiet Luxury Palette — Underdogs Innercircle */
+    --ic-void: #080706;
+    --ic-onyx: #0f0e0c;
+    --ic-surface: rgba(15, 14, 12, 0.75);
+    --ic-surface-deep: #141310;
+    --ic-border: rgba(200, 176, 138, 0.12);
+    --ic-border-strong: rgba(200, 176, 138, 0.28);
 
-    /* Gold — the coin */
-    --ic-gold-900: #73572b;
-    --ic-gold-700: #977947;
-    --ic-gold-500: #b2955e;
-    --ic-gold-300: #cbb074;
-    --ic-gold-100: #f3e0ac;
-    --ic-gold-bright: #f2d68f;
+    /* Antique Champagne Bronze & Metals */
+    --ic-champagne: #C8B08A;
+    --ic-champagne-light: #EDE2D0;
+    --ic-champagne-dark: #8E7B62;
+    --ic-bronze-deep: #5A4C3A;
 
-    /* Light — ivory & diamond */
-    --ic-ivory: #ece1cf;
-    --ic-ivory-dim: #ded3c1;
-    --ic-diamond: #e3d8cf;
-    --ic-champagne: #e3bc95;
-    --ic-confetti: #edbf79;
+    /* Silk & Ivory Light */
+    --ic-ivory: #E8E2D8;
+    --ic-ivory-dim: #D1C9BE;
+    --ic-silk: #F5EFEB;
 
-    /* Accents — flame and drop */
-    --ic-ember-deep: #7d4b2d;
-    --ic-ember: #ae7144;
-    --ic-ember-hot: #eab673;
-    --ic-drop: #e32605;
-    --ic-drop-deep: #a01201;
-    --ic-drop-hi: #f0421f;
-
-    /* White Room equivalents */
-    --c-paper: #f4f0e9;
-    --c-ink: #141210;
-    --c-signal: #ff5b1f;
-
-    /* Motion easing tokens (Part 4.3) */
+    /* Motion easing tokens */
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-swift: cubic-bezier(0.83, 0, 0.17, 1);
     --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
@@ -50,22 +33,13 @@
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   }
-
-  [data-theme="aegean"] {
-    --ic-onyx: #14224a;
-    --ic-void: #0a132c;
-    --ic-satin-900: #1b2e5e;
-    --ic-satin-700: #2451a6;
-    --ic-gold-300: #f3e0ac;
-    --ic-ivory: #f3efe6;
-  }
 }
 
 html,
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--ic-onyx);
+  background-color: var(--ic-void);
   color: var(--ic-ivory);
   font-family: var(--font-sans);
   overflow-x: hidden;
@@ -73,70 +47,68 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hairline rule definition (Part 2.4) */
+/* Hairline rule definitions */
 .hairline-b {
-  border-bottom: 1px solid rgba(236, 225, 207, 0.18);
+  border-bottom: 1px solid rgba(200, 176, 138, 0.14);
 }
 .hairline-t {
-  border-top: 1px solid rgba(236, 225, 207, 0.18);
+  border-top: 1px solid rgba(200, 176, 138, 0.14);
 }
 .hairline-l {
-  border-left: 1px solid rgba(236, 225, 207, 0.18);
+  border-left: 1px solid rgba(200, 176, 138, 0.14);
 }
 .hairline-r {
-  border-right: 1px solid rgba(236, 225, 207, 0.18);
+  border-right: 1px solid rgba(200, 176, 138, 0.14);
 }
 .hairline-all {
-  border: 1px solid rgba(236, 225, 207, 0.18);
+  border: 1px solid rgba(200, 176, 138, 0.14);
 }
 
+/* Understated Satin Champagne Sheen */
 .gold-gradient-text,
 .ic-gold-text {
-  background: linear-gradient(135deg, #73572b 0%, #b2955e 20%, #f3e0ac 45%, #ffffff 55%, #cbb074 75%, #977947 100%);
+  background: linear-gradient(135deg, #EDE2D0 0%, #C8B08A 45%, #DFD2BC 70%, #A8906C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .ic-gold-foil {
-  background: linear-gradient(135deg, #73572b 0%, #b2955e 26%, #f3e0ac 48%, #cbb074 66%, #977947 100%);
+  background: linear-gradient(135deg, #A8906C 0%, #C8B08A 35%, #EDE2D0 55%, #C8B08A 75%, #8E7B62 100%);
 }
 
+/* Museum-Grade Hairline Framing */
 .ic-frame {
   position: relative;
-  border: 1px solid var(--ic-gold-700);
-  clip-path: polygon(
-    14px 0, calc(100% - 14px) 0,
-    100% 14px, 100% calc(100% - 14px),
-    calc(100% - 14px) 100%, 14px 100%,
-    0 calc(100% - 14px), 0 14px
-  );
+  border: 1px solid rgba(200, 176, 138, 0.15);
+  background: rgba(15, 14, 12, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 1px;
 }
 
 .ic-frame-double {
   position: relative;
-  border: 1px solid var(--ic-gold-700);
-  box-shadow: inset 0 0 0 5px rgba(20, 20, 20, 0.9), inset 0 0 0 6px var(--ic-gold-500);
-  clip-path: polygon(
-    14px 0, calc(100% - 14px) 0,
-    100% 14px, 100% calc(100% - 14px),
-    calc(100% - 14px) 100%, 14px 100%,
-    0 calc(100% - 14px), 0 14px
-  );
+  border: 1px solid rgba(200, 176, 138, 0.18);
+  background: rgba(15, 14, 12, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  border-radius: 1px;
 }
 
 .ic-satin-bg {
-  background: radial-gradient(circle at 50% 30%, rgba(35, 23, 28, 0.7) 0%, rgba(20, 20, 20, 0.95) 75%, #050505 100%);
+  background: radial-gradient(circle at 50% 30%, rgba(25, 23, 20, 0.7) 0%, rgba(15, 14, 12, 0.95) 75%, #080706 100%);
 }
 
 .ic-gold-glow {
-  box-shadow: 0 0 35px -5px rgba(203, 176, 116, 0.25);
+  box-shadow: 0 0 25px -5px rgba(200, 176, 138, 0.18);
 }
 
 .gold-border {
-  border-color: var(--ic-gold-700);
+  border-color: rgba(200, 176, 138, 0.2);
 }
 
-/* 3-5% Animated Film Grain (Part 2.4, V16) */
+/* Film Grain Texture */
 .film-grain {
   position: fixed;
   inset: 0;
@@ -144,13 +116,13 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 99;
-  opacity: 0.038;
+  opacity: 0.032;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Accessible focus ring */
+/* Focus ring */
 :focus-visible {
-  outline: 2px solid var(--ic-gold-300);
+  outline: 1.5px solid var(--ic-champagne);
   outline-offset: 3px;
 }
 

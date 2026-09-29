@@ -24,7 +24,7 @@ export function Wordmark3D() {
       <Text
         fontSize={1.7}
         letterSpacing={0.25}
-        color="#cbb074"
+        color="#C8B08A"
         anchorX="center"
         anchorY="middle"
         position={[0, 1.2, 0]}
@@ -33,16 +33,16 @@ export function Wordmark3D() {
       >
         UNDERDOGS
         <meshStandardMaterial
-          color="#342528"
-          roughness={0.82}
-          metalness={0.25}
+          color="#1A1815"
+          roughness={0.7}
+          metalness={0.4}
         />
       </Text>
 
       <Text
         fontSize={1.2}
         letterSpacing={0.35}
-        color="#ece1cf"
+        color="#EDE2D0"
         anchorX="center"
         anchorY="middle"
         position={[0, -0.6, 0]}

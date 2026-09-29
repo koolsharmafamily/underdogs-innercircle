@@ -167,11 +167,11 @@ export function KineticArray() {
         materialRef.current.clearcoat = THREE.MathUtils.lerp(materialRef.current.clearcoat, 0.08, 0.08);
         materialRef.current.opacity = THREE.MathUtils.lerp(materialRef.current.opacity, 0.12, 0.08);
       } else if (isContact) {
-        // Contact mark — subtle gold shimmer
-        materialRef.current.color.lerp(new THREE.Color('#F3E0AC'), 0.08);
-        materialRef.current.roughness = THREE.MathUtils.lerp(materialRef.current.roughness, 0.15, 0.08);
-        materialRef.current.metalness = THREE.MathUtils.lerp(materialRef.current.metalness, 0.7, 0.08);
-        materialRef.current.clearcoat = THREE.MathUtils.lerp(materialRef.current.clearcoat, 0.5, 0.08);
+        // Contact mark — subtle champagne bronze shimmer
+        materialRef.current.color.lerp(new THREE.Color('#C8B08A'), 0.08);
+        materialRef.current.roughness = THREE.MathUtils.lerp(materialRef.current.roughness, 0.25, 0.08);
+        materialRef.current.metalness = THREE.MathUtils.lerp(materialRef.current.metalness, 0.65, 0.08);
+        materialRef.current.clearcoat = THREE.MathUtils.lerp(materialRef.current.clearcoat, 0.4, 0.08);
         materialRef.current.opacity = THREE.MathUtils.lerp(materialRef.current.opacity, 0.22, 0.08);
       } else {
         // Obsidian ghost default — barely-there wisps

@@ -42,27 +42,27 @@ export function SoundToggle({ className = '' }: { className?: string }) {
   const currentTrack = AUDIO_TRACKS[trackIdx] || AUDIO_TRACKS[0];
 
   return (
-    <div className={`inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] uppercase ${className}`}>
+    <div className={`inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase ${className}`}>
       <button
         onClick={toggleSound}
-        className="group flex items-center gap-1.5 cursor-pointer transition-colors hover:text-[#cbb074]"
+        className="group flex items-center gap-1.5 cursor-pointer transition-colors text-[#E8E2D8]/80 hover:text-[#EDE2D0]"
         aria-label={soundEnabled ? 'Mute music' : 'Play music'}
         title={soundEnabled ? `Playing: ${currentTrack.title} (Click to Mute)` : 'Play Underdogs Soundtrack'}
       >
         <span className="flex items-end gap-[2px] h-3">
           <span
-            className={`w-[2px] bg-[#cbb074] transition-all duration-300 ${
-              soundEnabled ? 'h-2.5 animate-pulse' : 'h-1 opacity-40'
+            className={`w-[2px] bg-[#C8B08A] transition-all duration-300 ${
+              soundEnabled ? 'h-2.5 animate-pulse' : 'h-1 opacity-35'
             }`}
           />
           <span
-            className={`w-[2px] bg-[#cbb074] transition-all duration-300 ${
-              soundEnabled ? 'h-3 animate-pulse delay-75' : 'h-1.5 opacity-40'
+            className={`w-[2px] bg-[#C8B08A] transition-all duration-300 ${
+              soundEnabled ? 'h-3 animate-pulse delay-75' : 'h-1.5 opacity-35'
             }`}
           />
           <span
-            className={`w-[2px] bg-[#cbb074] transition-all duration-300 ${
-              soundEnabled ? 'h-2 animate-pulse delay-150' : 'h-1 opacity-40'
+            className={`w-[2px] bg-[#C8B08A] transition-all duration-300 ${
+              soundEnabled ? 'h-2 animate-pulse delay-150' : 'h-1 opacity-35'
             }`}
           />
         </span>
@@ -74,7 +74,7 @@ export function SoundToggle({ className = '' }: { className?: string }) {
       {soundEnabled && (
         <button
           onClick={switchTrack}
-          className="text-[10px] text-[#cbb074] hover:text-[#f3e0ac] border border-[#cbb074]/35 hover:border-[#cbb074] px-1.5 py-0.5 rounded-sm cursor-pointer transition-colors"
+          className="text-[10px] text-[#C8B08A] hover:text-[#EDE2D0] border border-[#C8B08A]/30 hover:border-[#C8B08A] px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors"
           title="Next Track (Vault · After Dark · Innercircle)"
           aria-label="Next Track"
         >

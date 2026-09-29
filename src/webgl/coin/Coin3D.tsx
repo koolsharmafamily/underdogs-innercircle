@@ -68,22 +68,22 @@ export function Coin3D() {
     const cy = 512;
 
     const gradGold = ctx.createLinearGradient(0, 0, 1024, 1024);
-    gradGold.addColorStop(0, '#73572b');
-    gradGold.addColorStop(0.26, '#b2955e');
-    gradGold.addColorStop(0.48, '#f3e0ac');
-    gradGold.addColorStop(0.66, '#cbb074');
-    gradGold.addColorStop(1, '#977947');
+    gradGold.addColorStop(0, '#5A4C3A');
+    gradGold.addColorStop(0.26, '#8E7B62');
+    gradGold.addColorStop(0.5, '#C8B08A');
+    gradGold.addColorStop(0.74, '#EDE2D0');
+    gradGold.addColorStop(1, '#8E7B62');
 
     // Outer gold band
-    ctx.lineWidth = 42;
+    ctx.lineWidth = 40;
     ctx.strokeStyle = gradGold;
     ctx.beginPath();
     ctx.arc(cx, cy, 460, 0, Math.PI * 2);
     ctx.stroke();
 
     // Inner filigree ring
-    ctx.lineWidth = 6;
-    ctx.strokeStyle = '#cbb074';
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#C8B08A';
     ctx.beginPath();
     ctx.arc(cx, cy, 415, 0, Math.PI * 2);
     ctx.stroke();
@@ -94,8 +94,8 @@ export function Coin3D() {
 
     // Circular engraved text: "DIFFERENT WORLDS · SAME COIN · UNDERDOGS INNERCIRCLE"
     ctx.save();
-    ctx.font = 'bold 36px Cinzel, serif';
-    ctx.fillStyle = '#f3e0ac';
+    ctx.font = '34px Cinzel, serif';
+    ctx.fillStyle = '#EDE2D0';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
@@ -132,10 +132,10 @@ export function Coin3D() {
     // Central Octagram / Star of the Vault
     ctx.save();
     ctx.translate(cx, cy);
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#f3e0ac';
-    ctx.shadowColor = '#eab673';
-    ctx.shadowBlur = 15;
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#EDE2D0';
+    ctx.shadowColor = '#C8B08A';
+    ctx.shadowBlur = 10;
 
     // Draw 8-pointed star
     for (let rot = 0; rot < 2; rot++) {
@@ -147,7 +147,7 @@ export function Coin3D() {
 
     // Center emblem "IC" in Trajan Serif
     ctx.font = 'bold 110px Cinzel, serif';
-    ctx.fillStyle = '#f3e0ac';
+    ctx.fillStyle = '#EDE2D0';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('IC', 0, 0);
@@ -191,33 +191,33 @@ export function Coin3D() {
   // Three materials: [side, top (heads), bottom (tails)]
   const materials = useMemo(() => {
     const sideMat = new THREE.MeshPhysicalMaterial({
-      color: '#f3e0ac',
-      metalness: 0.85,
-      roughness: 0.2,
-      clearcoat: 0.7,
-      clearcoatRoughness: 0.1,
+      color: '#C8B08A',
+      metalness: 0.72,
+      roughness: 0.32,
+      clearcoat: 0.35,
+      clearcoatRoughness: 0.15,
       bumpMap: edgeBumpTexture || undefined,
-      bumpScale: 0.06,
+      bumpScale: 0.04,
     });
 
     const headsMat = new THREE.MeshPhysicalMaterial({
       map: headsTexture,
-      roughness: 0.2,
-      metalness: 0.65,
-      clearcoat: 0.95,
-      clearcoatRoughness: 0.05,
-      reflectivity: 0.9,
-      envMapIntensity: 1.5,
+      roughness: 0.32,
+      metalness: 0.72,
+      clearcoat: 0.35,
+      clearcoatRoughness: 0.15,
+      reflectivity: 0.7,
+      envMapIntensity: 1.1,
     });
 
     const tailsMat = new THREE.MeshPhysicalMaterial({
       map: tailsTexture,
-      roughness: 0.22,
-      metalness: 0.65,
-      clearcoat: 0.85,
-      clearcoatRoughness: 0.06,
-      reflectivity: 0.9,
-      envMapIntensity: 1.5,
+      roughness: 0.32,
+      metalness: 0.72,
+      clearcoat: 0.35,
+      clearcoatRoughness: 0.15,
+      reflectivity: 0.7,
+      envMapIntensity: 1.1,
     });
 
     return [sideMat, headsMat, tailsMat];
@@ -293,19 +293,26 @@ export function Coin3D() {
         receiveShadow
       />
 
-      {/* Atmospheric Point Light dedicated to the coin's glints */}
+      {/* Museum Gallery Directional Spotlight */}
+      <directionalLight
+        position={[4, 6, 8]}
+        color="#FFF6E5"
+        intensity={1.8}
+      />
+
+      {/* Atmospheric Warm Accent Glints */}
       <pointLight
         position={[2.5, 3.5, 3.0]}
-        color="#FFF3D6"
-        intensity={3.5}
-        distance={12}
+        color="#EDE2D0"
+        intensity={2.2}
+        distance={14}
         decay={2}
       />
       <pointLight
         position={[-3.0, -2.0, 2.0]}
-        color="#AE7144"
-        intensity={2.8}
-        distance={10}
+        color="#8E7B62"
+        intensity={1.6}
+        distance={12}
         decay={2}
       />
     </group>

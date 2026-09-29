@@ -37,34 +37,35 @@ export function RequestCoinModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-[#050505]/95 backdrop-blur-xl flex items-center justify-center p-6 text-[#ece1cf]"
+      className="fixed inset-0 z-50 bg-[#080706]/92 backdrop-blur-2xl flex items-center justify-center p-6 text-[#E8E2D8]"
       role="dialog"
       aria-modal="true"
-      aria-label="Request Your Innercircle Coin"
+      aria-label="Request For Introduction"
     >
-      <div className="w-full max-w-md bg-[#141414] border border-[#cbb074]/30 p-8 rounded-sm shadow-2xl relative">
+      <div className="w-full max-w-md bg-[#0F0E0C]/96 border border-[#C8B08A]/22 p-8 sm:p-10 rounded-[1px] shadow-[0_25px_60px_rgba(0,0,0,0.85)] relative">
         <button
           onClick={closeOverlay}
-          className="absolute top-5 right-5 text-xs font-mono text-[#cbb074] hover:text-[#f3e0ac] tracking-widest cursor-pointer"
+          className="absolute top-5 right-5 text-xs font-mono text-[#8E7B62] hover:text-[#EDE2D0] tracking-widest cursor-pointer transition-colors"
+          aria-label="Close dialog"
         >
           ✕
         </button>
 
         {step === 'form' && (
           <div>
-            <div className="text-[10px] font-mono text-[#cbb074] tracking-[0.25em] uppercase mb-1">
-              MEMBERSHIP PROTOCOL
+            <div className="text-[9px] font-mono text-[#8E7B62] tracking-[0.25em] uppercase mb-1.5">
+              MEMBERSHIP PROTOCOL · NAGPUR
             </div>
-            <h3 className="font-['Cinzel'] text-2xl font-bold tracking-wide mb-2">
-              REQUEST YOUR COIN
+            <h3 className="font-['Cinzel'] text-xl sm:text-2xl font-light tracking-[0.1em] text-[#EDE2D0] mb-2.5">
+              REQUEST INTRODUCTION
             </h3>
-            <p className="font-serif text-xs text-[#ece1cf]/70 mb-6 leading-relaxed">
-              Admission into the Innercircle is strictly vetted. Every member holds a serialized coin that unlocks private access, location drops, and private booking rights.
+            <p className="font-serif text-xs text-[#E8E2D8]/75 mb-6 leading-relaxed font-light">
+              Admission into the Innercircle is strictly vetted. Every member holds an engraved coin that unlocks private access, location drops, and private booking rights.
             </p>
 
             <form onSubmit={handleFormSubmit} className="space-y-4 font-mono text-xs">
               <div>
-                <label className="block text-[10px] uppercase tracking-wider text-[#cbb074] mb-1">
+                <label className="block text-[9px] uppercase tracking-[0.22em] text-[#8E7B62] mb-1.5">
                   Full Name
                 </label>
                 <input
@@ -73,12 +74,12 @@ export function RequestCoinModal() {
                   placeholder="e.g. Aarav Sharma"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#050505] border border-[#ece1cf]/20 rounded-sm text-[#ece1cf] focus:border-[#cbb074] focus:outline-none"
+                  className="w-full px-3.5 py-3 bg-[#080706] border border-[#C8B08A]/20 rounded-[1px] text-[#EDE2D0] focus:border-[#C8B08A] focus:outline-none transition-colors text-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] uppercase tracking-wider text-[#cbb074] mb-1">
+                <label className="block text-[9px] uppercase tracking-[0.22em] text-[#8E7B62] mb-1.5">
                   Instagram Handle
                 </label>
                 <input
@@ -87,13 +88,13 @@ export function RequestCoinModal() {
                   placeholder="@yourhandle"
                   value={handle}
                   onChange={(e) => setHandle(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#050505] border border-[#ece1cf]/20 rounded-sm text-[#ece1cf] focus:border-[#cbb074] focus:outline-none"
+                  className="w-full px-3.5 py-3 bg-[#080706] border border-[#C8B08A]/20 rounded-[1px] text-[#EDE2D0] focus:border-[#C8B08A] focus:outline-none transition-colors text-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] uppercase tracking-wider text-[#cbb074] mb-1">
-                  Mobile (For OTP & Encrypted Drops)
+                <label className="block text-[9px] uppercase tracking-[0.22em] text-[#8E7B62] mb-1.5">
+                  Mobile (For Verification & Encrypted Drops)
                 </label>
                 <input
                   type="tel"
@@ -101,13 +102,13 @@ export function RequestCoinModal() {
                   placeholder="+91 98765 43210"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#050505] border border-[#ece1cf]/20 rounded-sm text-[#ece1cf] focus:border-[#cbb074] focus:outline-none"
+                  className="w-full px-3.5 py-3 bg-[#080706] border border-[#C8B08A]/20 rounded-[1px] text-[#EDE2D0] focus:border-[#C8B08A] focus:outline-none transition-colors text-xs"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3 bg-[#cbb074] text-[#141414] font-bold text-xs tracking-[0.2em] uppercase hover:bg-[#f3e0ac] transition-all cursor-pointer rounded-sm mt-4 shadow-lg"
+                className="w-full py-3.5 bg-[#C8B08A] text-[#080706] font-bold text-[10px] tracking-[0.24em] uppercase hover:bg-[#EDE2D0] transition-colors cursor-pointer rounded-[1px] mt-4 shadow-lg"
               >
                 Proceed to Verification →
               </button>
@@ -117,14 +118,14 @@ export function RequestCoinModal() {
 
         {step === 'otp' && (
           <div>
-            <div className="text-[10px] font-mono text-[#cbb074] tracking-[0.25em] uppercase mb-1">
+            <div className="text-[9px] font-mono text-[#8E7B62] tracking-[0.25em] uppercase mb-1.5">
               SECURITY VERIFICATION
             </div>
-            <h3 className="font-['Cinzel'] text-xl font-bold tracking-wide mb-2">
+            <h3 className="font-['Cinzel'] text-xl font-light tracking-[0.1em] text-[#EDE2D0] mb-2.5">
               ENTER ACCESS CODE
             </h3>
-            <p className="font-serif text-xs text-[#ece1cf]/70 mb-4 leading-relaxed">
-              We generated an instant access key for <span className="text-[#cbb074]">{phone}</span>. (Demo mode key: <strong className="text-[#f3e0ac]">7729</strong>)
+            <p className="font-serif text-xs text-[#E8E2D8]/75 mb-5 leading-relaxed font-light">
+              We generated an instant access key for <span className="text-[#C8B08A]">{phone}</span>. (Demo key: <strong className="text-[#EDE2D0]">7729</strong>)
             </p>
 
             <form onSubmit={handleOtpSubmit} className="space-y-4 font-mono text-xs">
@@ -135,12 +136,12 @@ export function RequestCoinModal() {
                 placeholder="7729"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full text-center text-2xl tracking-[0.5em] px-3 py-3 bg-[#050505] border border-[#cbb074] rounded-sm text-[#f3e0ac] focus:outline-none"
+                className="w-full text-center text-2xl tracking-[0.5em] px-3 py-3.5 bg-[#080706] border border-[#C8B08A]/35 rounded-[1px] text-[#EDE2D0] focus:outline-none focus:border-[#C8B08A] transition-colors"
               />
 
               <button
                 type="submit"
-                className="w-full py-3 bg-[#cbb074] text-[#141414] font-bold text-xs tracking-[0.2em] uppercase hover:bg-[#f3e0ac] transition-all cursor-pointer rounded-sm shadow-lg"
+                className="w-full py-3.5 bg-[#C8B08A] text-[#080706] font-bold text-[10px] tracking-[0.24em] uppercase hover:bg-[#EDE2D0] transition-colors cursor-pointer rounded-[1px] shadow-lg"
               >
                 Verify & Mint Coin →
               </button>
@@ -150,47 +151,47 @@ export function RequestCoinModal() {
 
         {step === 'minted' && (
           <div className="text-center py-4">
-            <div className="w-24 h-24 mx-auto mb-4 rounded-full relative overflow-hidden p-[2px] bg-gradient-to-tr from-[#73572b] via-[#f3e0ac] to-[#977947] shadow-[0_0_35px_rgba(203,176,116,0.5)]">
-              <div className="w-full h-full rounded-full overflow-hidden relative bg-[#050505]">
+            <div className="w-20 h-20 mx-auto mb-4 rounded-full relative overflow-hidden p-[1px] border border-[#C8B08A]/35 shadow-xl bg-[#080706]">
+              <div className="w-full h-full rounded-full overflow-hidden relative bg-[#080706]">
                 <Image
                   src="/brand/logo.jpg"
                   alt="Minted Underdogs Gold Coin"
                   fill
-                  className="object-cover animate-spin-slow"
+                  className="object-cover"
                 />
               </div>
             </div>
 
-            <div className="text-[10px] font-mono text-[#cbb074] tracking-[0.25em] uppercase mb-1">
+            <div className="text-[9px] font-mono text-[#8E7B62] tracking-[0.25em] uppercase mb-1">
               COIN MINTED · ACCESS GRANTED
             </div>
-            <h3 className="font-['Cinzel'] text-2xl font-bold tracking-wide mb-1 text-[#f3e0ac]">
+            <h3 className="font-['Cinzel'] text-xl font-normal tracking-[0.1em] mb-1 text-[#EDE2D0]">
               {name.toUpperCase()}
             </h3>
-            <p className="font-mono text-xs text-[#ece1cf]/60 mb-6">
-              SERIAL: <span className="text-[#cbb074]">#IC-{serial}</span> · REGISTERED TO {handle}
+            <p className="font-mono text-[11px] text-[#E8E2D8]/65 mb-6">
+              SERIAL: <span className="text-[#C8B08A]">#IC-{serial}</span> · REGISTERED TO {handle}
             </p>
 
-            <div className="p-4 bg-[#050505] border border-[#ece1cf]/15 rounded-sm text-left mb-6 font-mono text-[11px] space-y-1.5">
+            <div className="p-4 bg-[#080706] border border-[#C8B08A]/15 rounded-[1px] text-left mb-6 font-mono text-[10px] space-y-2">
               <div className="flex justify-between">
-                <span className="text-[#ece1cf]/50">STATUS:</span>
-                <span className="text-emerald-400">APPROVED FOR GUEST LIST</span>
+                <span className="text-[#8E7B62]">STATUS:</span>
+                <span className="text-[#EDE2D0]">APPROVED FOR GUEST LIST</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#ece1cf]/50">NEXT DROP:</span>
-                <span className="text-[#cbb074]">72H BEFORE NIGHT</span>
+                <span className="text-[#8E7B62]">NEXT DROP:</span>
+                <span className="text-[#C8B08A]">72H BEFORE NIGHT</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#ece1cf]/50">KEY ID:</span>
-                <span className="text-[#ece1cf]">UNDERDOGS-COIN-{serial}</span>
+                <span className="text-[#8E7B62]">KEY ID:</span>
+                <span className="text-[#EDE2D0]">UNDERDOGS-COIN-{serial}</span>
               </div>
             </div>
 
             <button
               onClick={closeOverlay}
-              className="w-full py-3 bg-[#cbb074] text-[#141414] font-bold text-xs tracking-[0.2em] uppercase hover:bg-[#f3e0ac] transition-all cursor-pointer rounded-sm"
+              className="w-full py-3.5 bg-[#C8B08A] text-[#080706] font-bold text-[10px] tracking-[0.24em] uppercase hover:bg-[#EDE2D0] transition-colors cursor-pointer rounded-[1px]"
             >
-              Enter the Experience
+              Enter the Vault
             </button>
           </div>
         )}

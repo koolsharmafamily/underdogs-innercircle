@@ -79,24 +79,24 @@ export function Cursor() {
       {/* Centre Dot */}
       <div
         ref={dotRef}
-        className="w-1.5 h-1.5 bg-[#cbb074] rounded-full fixed top-0 left-0 transition-opacity duration-200"
+        className="w-1.5 h-1.5 bg-[#C8B08A] rounded-full fixed top-0 left-0 transition-opacity duration-200"
       />
 
       {/* Hairline Ring */}
       <div
         ref={ringRef}
-        className={`w-8 h-8 rounded-full border border-[#cbb074]/60 fixed top-0 left-0 transition-all duration-200 flex items-center justify-center ${
+        className={`w-8 h-8 rounded-full border border-[#C8B08A]/50 fixed top-0 left-0 transition-all duration-200 flex items-center justify-center ${
           cursorState === 'link'
-            ? 'scale-150 border-[#f3e0ac] bg-[#cbb074]/10'
+            ? 'scale-150 border-[#EDE2D0] bg-[#C8B08A]/10'
             : cursorState === 'view'
-            ? 'scale-175 border-[#f3e0ac]'
+            ? 'scale-175 border-[#EDE2D0]'
             : cursorState === 'drag'
-            ? 'scale-125 border-[#e32605]'
+            ? 'scale-125 border-[#8E7B62]'
             : 'scale-100'
         }`}
       >
         {cursorState === 'view' && (
-          <span className="font-mono text-[8px] text-[#f3e0ac] tracking-widest uppercase">
+          <span className="font-mono text-[8px] text-[#EDE2D0] tracking-widest uppercase">
             VIEW
           </span>
         )}

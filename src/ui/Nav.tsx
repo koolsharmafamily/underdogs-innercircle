@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAppStore } from '@/state/store';
 import { getLenis } from '@/motion/clock';
-import { siteConfig } from '@content/site';
 import { SoundToggle } from './SoundToggle';
 
 export function Nav() {
@@ -27,7 +26,7 @@ export function Nav() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-40 px-6 md:px-12 py-6 flex items-center justify-between transition-colors duration-500 pointer-events-auto text-[#ece1cf]"
+      className="fixed top-0 left-0 right-0 z-40 px-6 md:px-12 py-6 flex items-center justify-between transition-colors duration-500 pointer-events-auto text-[#E8E2D8]"
     >
       {/* Brand Wordmark / Emblem (Click = Back to Top or Home) */}
       <button
@@ -35,7 +34,7 @@ export function Nav() {
         className="flex items-center gap-3 group text-left cursor-pointer focus:outline-none"
         aria-label="Underdogs Innercircle — Back to top"
       >
-        <div className="w-8 h-8 rounded-full overflow-hidden relative border border-[#cbb074] group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-[0_0_15px_rgba(203,176,116,0.3)] flex-shrink-0 bg-[#050505]">
+        <div className="w-8 h-8 rounded-full overflow-hidden relative border border-[#C8B08A]/35 group-hover:border-[#C8B08A] transition-colors duration-400 shadow-md flex-shrink-0 bg-[#080706]">
           <Image
             src="/brand/logo.jpg"
             alt="Underdogs Gold Coin Emblem"
@@ -44,20 +43,20 @@ export function Nav() {
           />
         </div>
         <div className="flex flex-col">
-          <span className="font-['Cinzel'] tracking-[0.22em] text-xs md:text-sm font-bold uppercase ic-gold-text">
+          <span className="font-['Cinzel'] tracking-[0.22em] text-xs md:text-sm font-medium uppercase ic-gold-text">
             UNDERDOGS
           </span>
-          <span className="text-[9px] tracking-[0.24em] font-mono text-[#cbb074] uppercase">
+          <span className="text-[9px] tracking-[0.24em] font-mono text-[#C8B08A] uppercase">
             INNERCIRCLE
           </span>
         </div>
       </button>
 
       {/* Nav Controls */}
-      <nav className="flex items-center gap-4 sm:gap-7 font-mono text-[11px] tracking-[0.12em] uppercase">
+      <nav className="flex items-center gap-4 sm:gap-6 font-mono text-[10px] sm:text-[11px] tracking-[0.14em] uppercase">
         <button
           onClick={() => openOverlay('index')}
-          className="hover:text-[#cbb074] transition-colors cursor-pointer"
+          className="text-[#E8E2D8]/80 hover:text-[#EDE2D0] transition-colors cursor-pointer"
         >
           The Nights
         </button>
@@ -66,7 +65,7 @@ export function Nav() {
 
         <button
           onClick={() => openOverlay('menu')}
-          className="hover:text-[#cbb074] transition-colors cursor-pointer px-2.5 py-1 border border-current rounded-sm"
+          className="hover:text-[#EDE2D0] hover:border-[#C8B08A] transition-colors cursor-pointer px-3 py-1.5 border border-[#C8B08A]/25 rounded-[1px] text-[#E8E2D8]"
         >
           Menu
         </button>
@@ -74,7 +73,7 @@ export function Nav() {
         {/* Primary CTA */}
         <button
           onClick={() => openOverlay('coin')}
-          className="hidden sm:inline-flex items-center gap-1 px-4 py-1.5 bg-[#cbb074] text-[#141414] font-semibold tracking-[0.15em] rounded-sm hover:bg-[#f3e0ac] transition-all cursor-pointer text-[11px]"
+          className="hidden sm:inline-flex items-center gap-1 px-4 py-2 bg-[#C8B08A] text-[#080706] font-semibold tracking-[0.18em] rounded-[1px] hover:bg-[#EDE2D0] transition-colors cursor-pointer text-[10px]"
         >
           Request Coin ↗
         </button>
