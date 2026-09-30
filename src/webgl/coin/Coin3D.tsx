@@ -42,31 +42,31 @@ export function Coin3D() {
 
   // Normalize, center, and tune the GLB model for quiet luxury rendering
   const model = useMemo(() => {
-    const clone = gltf.scene.clone(true);
+    const wrapper = new THREE.Group();
+    const sceneClone = gltf.scene.clone(true);
 
-    // Compute exact bounding dimensions
-    const box = new THREE.Box3().setFromObject(clone);
+    // Compute exact bounding dimensions of the raw GLB
+    const box = new THREE.Box3().setFromObject(sceneClone);
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
 
-    // Center model at local origin (0, 0, 0)
-    clone.position.x -= center.x;
-    clone.position.y -= center.y;
-    clone.position.z -= center.z;
+    // Offset sceneClone so its center of mass is placed precisely at wrapper origin (0, 0, 0)
+    sceneClone.position.set(-center.x, -center.y, -center.z);
+    wrapper.add(sceneClone);
 
-    // Normalize scale: diameter ~3.3 units (matching our scene proportion)
+    // Normalize scale: diameter ~3.3 units (matching scene bounds)
     const maxDim = Math.max(size.x, size.y);
     const scaleFactor = 3.3 / (maxDim || 1);
-    clone.scale.multiplyScalar(scaleFactor);
+    wrapper.scale.setScalar(scaleFactor);
 
     // Internal alignment rotation:
     // The GLB coin face lies in the XY plane (facing +Z).
     // Rotating -PI/2 around X makes the front face (+Z) point to (+Y),
     // which exactly matches our Euler trajectory coordinates for flips and spins.
-    clone.rotation.x = -Math.PI / 2;
+    wrapper.rotation.x = -Math.PI / 2;
 
     // Traverse and enhance PBR physical materials
-    clone.traverse((child) => {
+    sceneClone.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         mesh.castShadow = true;
@@ -97,7 +97,7 @@ export function Coin3D() {
       }
     });
 
-    return clone;
+    return wrapper;
   }, [gltf.scene]);
 
   // Per-frame physics, spin and chapter-driven placement

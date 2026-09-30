@@ -27,7 +27,7 @@ export function Floor() {
     <mesh
       ref={meshRef}
       rotation={[-Math.PI / 2, 0, 0]}
-      position={[0, 0, 0]}
+      position={[0, -5.5, 0]}
       receiveShadow
     >
       <planeGeometry args={[120, 120, 32, 32]} />
