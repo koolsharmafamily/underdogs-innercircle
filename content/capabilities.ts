@@ -50,7 +50,7 @@ export const capabilities: Capability[] = [
     services: [
       '72-Hour Venue Drops',
       'Dynamic Digital Key Codes',
-      'Private WhatsApp Concierge',
+      'Private Concierge Liaison',
       'No Tagging / No Leaks',
     ],
     form: 'wave',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { frame } from '@/state/frame';
 import { useAppStore } from '@/state/store';
@@ -54,7 +54,9 @@ export function Experience() {
           <Floor />
           <Dust />
           <KineticArray />
-          <Coin3D />
+          <Suspense fallback={null}>
+            <Coin3D />
+          </Suspense>
         </group>
       </Canvas>
     </div>
