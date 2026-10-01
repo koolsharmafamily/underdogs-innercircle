@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import { Providers } from '@/ui/Providers';
 import { Nav } from '@/ui/Nav';
 import { SceneTicks } from '@/ui/SceneTicks';
-import { Cursor } from '@/ui/Cursor';
 import { DomLoader } from '@/ui/DomLoader';
 import { Overlays } from '@/ui/Overlays';
 import { Experience } from '@/webgl/Experience';
@@ -53,20 +52,20 @@ export default function RootLayout({
       data-theme="vault"
       className={`${cinzel.variable} ${ebGaramond.variable} ${inter.variable}`}
     >
-      <body className="bg-[#141414] text-[#ece1cf] selection:bg-[#cbb074] selection:text-[#141414]">
-        {/* Skip link for keyboard accessibility (Part 9.2 & Part 9.5) */}
+      <body className="bg-[#080706] text-[#E8E2D8] selection:bg-[#C8B08A] selection:text-[#080706]">
+        {/* Skip link for keyboard accessibility */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only fixed top-4 left-4 z-50 px-4 py-2 bg-[#cbb074] text-[#141414] font-mono text-xs font-bold uppercase rounded-sm"
+          className="sr-only focus:not-sr-only fixed top-4 left-4 z-50 px-4 py-2 bg-[#C8B08A] text-[#080706] font-mono text-xs font-bold uppercase rounded-[1px]"
         >
           Skip to main content
         </a>
 
-        {/* Global animated film grain overlay (Part 2.4 & V16) */}
+        {/* Global animated film grain overlay */}
         <div className="film-grain" aria-hidden="true" />
 
         <Providers>
-          {/* Server/Client First-Light DOM Loader (S00) */}
+          {/* Server/Client First-Light DOM Loader */}
           <DomLoader />
 
           {/* Persistent Three.js Canvas Scene */}
@@ -75,7 +74,6 @@ export default function RootLayout({
           {/* Persistent UI elements */}
           <Nav />
           <SceneTicks />
-          <Cursor />
           <Overlays />
 
           {/* Semantic DOM Main Document */}
